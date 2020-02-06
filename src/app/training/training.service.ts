@@ -1,9 +1,11 @@
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
+import { Subscription } from 'rxjs';
 
 import { Exercise } from './exercise.model';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { UiService } from '../shared/ui.service';
 
 @Injectable()
 export class TrainingService {
@@ -12,11 +14,13 @@ export class TrainingService {
   finishedExcercisesChanged = new Subject<Exercise[]>();
   private availableExercises: Exercise[] = [];
   private runningExercise: Exercise;
+  private fbSubs: Subscription[] = [];
 
-  constructor(private db: AngularFirestore) {}
+  constructor(private db: AngularFirestore, private uiService: UiService) {}
 
   fetchAvailableExercises() {
-    this.db
+    this.uiService.loadingStateChanged.next(true);
+    this.fbSubs.push(this.db
       .collection('availableExercises')
       .snapshotChanges()
       .map(docArray => {
@@ -30,9 +34,14 @@ export class TrainingService {
         });
       })
       .subscribe((exercises: Exercise[]) => {
+        this.uiService.loadingStateChanged.next(false);
         this.availableExercises = exercises;
         this.exercisesChanged.next([...this.availableExercises]);
-      });
+      }, error => {
+        this.uiService.loadingStateChanged.next(false);
+        this.exercisesChanged.next(null);
+        this.uiService.showSnackbar('Fetching Exercises failed, please try again later', null, 3000);
+      }));
   }
 
   startExercise(selectedId: string) {
@@ -69,9 +78,13 @@ export class TrainingService {
   }
 
   fetchCompletedOrCancelledExercises() {
-    this.db.collection('finishedExercises').valueChanges().subscribe((exercises: Exercise[]) => {
+    this.fbSubs.push(this.db.collection('finishedExercises').valueChanges().subscribe((exercises: Exercise[]) => {
       this.finishedExcercisesChanged.next(exercises);
-    });
+    }));
+  }
+
+  cancelSubscriptions() {
+    this.fbSubs.forEach(sub => sub.unsubscribe());
   }
 
   private addDataToDatabase(exercise: Exercise) {
