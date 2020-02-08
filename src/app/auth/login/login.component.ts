@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs';
 
 import { AuthService } from '../auth.service';
 import { UiService } from '../../shared/ui.service';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../app.reducer';
-import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 
 @Component({
