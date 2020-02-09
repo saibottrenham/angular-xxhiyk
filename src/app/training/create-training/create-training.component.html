@@ -1,0 +1,22 @@
+<app-add-training></app-add-training>
+
+<section class="create-training" fxLayout="column" fxLayoutAlign="center center">
+  <mat-card fxFlex.md="600px">
+    <mat-card-title fxLayoutAlign="center">My Exercises</mat-card-title>
+    <mat-card-content fxLayout="column" fxLayoutAlign="center" *ngIf="!(isLoading$ | async) && exercises$ | async">
+      <mat-list>
+          <mat-list-item *ngFor="let exercise of exercises$ | async">
+              <p mat-line>{{exercise.name}}</p>
+              <p mat-line>Current Weight: {{ exercise.weight ? exercise.weight : "0" }}kg</p>
+            <div fxFlex fxLayout fxLayoutAlign="flex-end">
+              <button type="button" mat-raised-button color="primary" (click)="openEdit(exercise)">Edit</button>
+              <button type="button" mat-raised-button color="warn" (click)="deleteEx(exercise.id)">Delete</button>
+            </div>
+          </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+    <mat-card-content fxLayout="row" fxLayoutAlign="center" *ngIf="isLoading$ | async">
+      <mat-spinner></mat-spinner>
+    </mat-card-content>
+  </mat-card>
+</section>

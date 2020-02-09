@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { SetAuthenticated } from '../auth/auth.actions';
 import { Exercise } from './exercise.model';
 
 export const SET_AVAILABLE_TRAININGS = '[Training] Set Available Trainings';

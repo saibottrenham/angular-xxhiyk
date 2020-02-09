@@ -30,9 +30,9 @@ export class TrainingService {
         return docArray.map(doc => {
           return {
             id: doc.payload.doc.id,
-            name: doc.payload.doc.data()['name'],
-            duration: doc.payload.doc.data()['duration'],
-            calories: doc.payload.doc.data()['calories']
+            name: doc.payload.doc.data()['exName'],
+            link: doc.payload.doc.data()['exLink'],
+            weight: doc.payload.doc.data()['exWeight']
           };
         });
       })
@@ -64,8 +64,6 @@ export class TrainingService {
     this.store.select(fromTraining.getActiveTraining).pipe(take(1)).subscribe(e => {
       this.addDataToDatabase({
         ...e,
-        duration: e.duration * (progress / 100),
-        calories: e.calories * (progress / 100),
         date: new Date(),
         state: 'cancelled'
       });
@@ -77,6 +75,36 @@ export class TrainingService {
     this.fbSubs.push(this.db.collection('finishedExercises').valueChanges().subscribe((exercises: Exercise[]) => {
       this.store.dispatch(new Training.SetFinishedTrainings(exercises));
     }));
+  }
+
+  addExercise(e: Exercise) {
+    this.store.dispatch(new UI.StartLoading());
+    this.db.collection('availableExercises').add(e).then(() => {
+      this.store.dispatch(new UI.StopLoading());
+    }).catch(() => {
+      this.store.dispatch(new UI.StopLoading());
+      this.uiService.showSnackbar('Somehting Went wrong, can\'t save exercise', null, 3000);
+    });
+  }
+
+  updateExercise(e: Exercise, id: string) {
+    this.store.dispatch(new UI.StartLoading());
+    this.db.collection('availableExercises').doc(id).update(e).then(() => {
+      this.store.dispatch(new UI.StopLoading());
+    }).catch(() => {
+      this.store.dispatch(new UI.StopLoading());
+      this.uiService.showSnackbar('Somehting Went wrong, can\'t update exercise', null, 3000);
+    });
+  }
+
+  deleteExercise(id: string) {
+    this.store.dispatch(new UI.StartLoading());
+    this.db.collection('availableExercises').doc(id).delete().then(() => {
+      this.store.dispatch(new UI.StopLoading());
+    }).catch(() => {
+      this.store.dispatch(new UI.StopLoading());
+      this.uiService.showSnackbar('Somehting Went wrong, can\'t delete exercise', null, 3000);
+    });
   }
 
   cancelSubscriptions() {

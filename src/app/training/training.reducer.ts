@@ -8,7 +8,6 @@ import {
 } from './training.actions';
 import { Exercise } from './exercise.model';
 import * as fromRoot from '../app.reducer';
-import { TrainingService } from './training.service';
 
 export interface TrainingState {
   availableExercises: Exercise[];

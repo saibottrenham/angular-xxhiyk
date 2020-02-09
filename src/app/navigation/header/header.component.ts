@@ -12,7 +12,6 @@ import { AuthService } from '../../auth/auth.service';
 export class HeaderComponent implements OnInit {
   @Output() sidenavToggle = new EventEmitter<void>();
   isAuth$: Observable<boolean>;
-  authSubscription: Subscription;
 
   constructor(private store: Store<fromRoot.State>, private authService: AuthService) { }
 

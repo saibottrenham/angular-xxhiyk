@@ -21,7 +21,6 @@ export class NewTrainingComponent implements OnInit {
 
   constructor(
     private trainingService: TrainingService,
-    private uiService: UiService,
     private store: Store<fromTraining.State>) { }
 
   ngOnInit() {

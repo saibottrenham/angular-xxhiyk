@@ -1,0 +1,15 @@
+.create-training {
+  padding: 30px;
+  form, mat-card {
+    margin: 0 auto;
+    box-sizing: border-box;
+    min-width: 100%;
+  }
+  button {
+    margin-left: 1em;
+  }
+}
+
+button[type=button]{
+  margin-top: .5em;
+}
