@@ -1,6 +1,6 @@
 export interface Exercise {
   id: string;
-  user: string;
+  userID: string;
   name: string;
   link: string;
   weight: number;

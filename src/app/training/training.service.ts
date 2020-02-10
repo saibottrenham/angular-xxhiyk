@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { Exercise } from './exercise.model';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { UiService } from '../shared/ui.service';
 import * as Training from './training.actions';
 import * as fromTraining from './training.reducer';
@@ -14,17 +15,22 @@ import { take } from 'rxjs/operators';
 
 @Injectable()
 export class TrainingService {
+  private userID: string;
   private fbSubs: Subscription[] = [];
 
   constructor(
     private db: AngularFirestore,
     private uiService: UiService,
-    private store: Store<fromTraining.State>) {}
+    private afAuth: AngularFireAuth,
+    private store: Store<fromTraining.State>) {
+    this.afAuth.authState.subscribe(user => {
+      if (user) { this.userID = user.uid; }});
+  }
 
   fetchAvailableExercises() {
     this.store.dispatch(new UI.StartLoading());
     this.fbSubs.push(this.db
-      .collection('availableExercises')
+      .collection('availableExercises', ref => ref.where('userID', '==', this.userID))
       .snapshotChanges()
       .map(docArray => {
         return docArray.map(doc => {
@@ -72,14 +78,17 @@ export class TrainingService {
   }
 
   fetchCompletedOrCancelledExercises() {
-    this.fbSubs.push(this.db.collection('finishedExercises').valueChanges().subscribe((exercises: Exercise[]) => {
+    this.fbSubs.push(this.db.collection('finishedExercises', ref => ref.where('userID', '==', this.userID))
+      .valueChanges().subscribe((exercises: Exercise[]) => {
       this.store.dispatch(new Training.SetFinishedTrainings(exercises));
     }));
   }
 
   addExercise(e: Exercise) {
+    e.userID = this.userID;
     this.store.dispatch(new UI.StartLoading());
-    this.db.collection('availableExercises').add(e).then(() => {
+    this.db.collection('availableExercises')
+      .add(e).then(() => {
       this.store.dispatch(new UI.StopLoading());
     }).catch(() => {
       this.store.dispatch(new UI.StopLoading());
@@ -88,8 +97,10 @@ export class TrainingService {
   }
 
   updateExercise(e: Exercise, id: string) {
+    e.userID = this.userID;
     this.store.dispatch(new UI.StartLoading());
-    this.db.collection('availableExercises').doc(id).update(e).then(() => {
+    this.db.collection('availableExercises', ref => ref.where('userID', '==', this.userID))
+      .doc(id).update(e).then(() => {
       this.store.dispatch(new UI.StopLoading());
     }).catch(() => {
       this.store.dispatch(new UI.StopLoading());
@@ -99,7 +110,8 @@ export class TrainingService {
 
   deleteExercise(id: string) {
     this.store.dispatch(new UI.StartLoading());
-    this.db.collection('availableExercises').doc(id).delete().then(() => {
+    this.db.collection('availableExercises', ref => ref.where('userID', '==', this.userID))
+      .doc(id).delete().then(() => {
       this.store.dispatch(new UI.StopLoading());
     }).catch(() => {
       this.store.dispatch(new UI.StopLoading());
