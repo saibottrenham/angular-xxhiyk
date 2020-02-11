@@ -38,7 +38,9 @@ export class TrainingService {
             id: doc.payload.doc.id,
             name: doc.payload.doc.data()['exName'],
             link: doc.payload.doc.data()['exLink'],
-            weight: doc.payload.doc.data()['exWeight']
+            weight: doc.payload.doc.data()['exWeight'],
+            sets: doc.payload.doc.data()['exSets'],
+            reps: doc.payload.doc.data()['exReps']
           };
         });
       })

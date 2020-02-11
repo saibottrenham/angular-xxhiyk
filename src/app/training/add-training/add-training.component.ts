@@ -27,14 +27,18 @@ export class AddTrainingComponent implements OnInit {
     this.addEx = new FormGroup({
       exName: new FormControl('', {validators: [Validators.required]}),
       exLink: new FormControl('', { validators: [Validators.pattern('https://www.youtube.com/.*')] }),
-      exWeight: new FormControl('', { validators: [Validators.pattern('^[0-9]*$')] })
+      exWeight: new FormControl('', { validators: [Validators.pattern('^[0-9]*$')] }),
+      exSets: new FormControl('', { validators: [Validators.pattern('^[0-9]*$')] }),
+      exReps: new FormControl('', { validators: [Validators.pattern('^[0-9]*$')] })
     });
 
     if (this.isDialog) {
       this.addEx.patchValue({
         exName: this.ex.name,
         exLink: this.ex.link,
-        exWeight: this.ex.weight
+        exWeight: this.ex.weight,
+        exSets: this.ex.sets,
+        exReps: this.ex.reps
       });
     }
   }

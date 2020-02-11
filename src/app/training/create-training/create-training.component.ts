@@ -16,7 +16,6 @@ import { EditTrainingComponent } from './edit-training.component';
   styleUrls: ['./create-training.component.scss']
 })
 export class CreateTrainingComponent implements OnInit {
-  addEx: FormGroup;
   exercises$: Observable<Exercise[]>;
   isLoading$: Observable<boolean>;
 
@@ -37,7 +36,9 @@ export class CreateTrainingComponent implements OnInit {
         id: e.id,
         name: e.name,
         weight: e.weight,
-        link: e.link
+        link: e.link,
+        sets: e.sets,
+        reps: e.reps
       },
       width: '600px',
     });

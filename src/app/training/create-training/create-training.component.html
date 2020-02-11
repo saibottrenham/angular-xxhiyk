@@ -1,14 +1,20 @@
 <app-add-training></app-add-training>
 
-<section class="create-training" fxLayout="column" fxLayoutAlign="center center">
-  <mat-card fxFlex.md="600px">
+<section class="create-training">
+  <mat-card fxFlex.xs="100%" fxFlex.sm="100%" fxFlex="600px">
     <mat-card-title fxLayoutAlign="center">My Exercises</mat-card-title>
     <mat-card-content fxLayout="column" fxLayoutAlign="center" *ngIf="!(isLoading$ | async) && exercises$ | async">
       <mat-list>
           <mat-list-item *ngFor="let exercise of exercises$ | async">
               <p mat-line>{{exercise.name}}</p>
-              <p mat-line>Current Weight: {{ exercise.weight ? exercise.weight : "0" }}kg</p>
-            <div fxFlex fxLayout fxLayoutAlign="flex-end">
+              <p mat-line>Weight: {{ exercise.weight ? exercise.weight : "0" }}kg |
+                Sets: {{ exercise.sets ? exercise.sets : "0" }}x |
+                Reps: {{ exercise.reps ? exercise.reps : "0" }}x</p>
+            <p mat-line fxShow.xs="true" fxShow="false" fxLayoutAlign="space-evenly">
+              <button type="button" class="mobile-button" mat-raised-button color="primary" (click)="openEdit(exercise)">Edit</button>
+              <button type="button" class="mobile-button" mat-raised-button color="warn" (click)="deleteEx(exercise.id)">Delete</button>
+            </p>
+            <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs="true">
               <button type="button" mat-raised-button color="primary" (click)="openEdit(exercise)">Edit</button>
               <button type="button" mat-raised-button color="warn" (click)="deleteEx(exercise.id)">Delete</button>
             </div>

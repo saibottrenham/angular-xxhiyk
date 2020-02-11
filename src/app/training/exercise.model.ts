@@ -4,6 +4,8 @@ export interface Exercise {
   name: string;
   link: string;
   weight: number;
+  sets: number;
+  reps: number;
   date?: Date;
   state?: 'completed' | 'cancelled' | null;
 }
