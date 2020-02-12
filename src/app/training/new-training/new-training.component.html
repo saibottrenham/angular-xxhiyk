@@ -1,197 +1,29 @@
 <section class="new-training">
   <mat-card fxFlex fxFlexAlign="center">
-  <mat-card-content>
-  <div class="box" fxFlexAlign="center">
-      <div>
-        <mat-form-field>
-          <h4>Monday</h4>
-          <mat-chip-list #chipList aria-label="Fruit selection" class="mat-chip-list-stacked" aria-orientation="vertical">
+    <mat-card-content>
+      <div class="box" fxFlexAlign="center">
+        <div *ngFor="let day of week">
+          <h4>{{day.day}}</h4>
+          <mat-chip-list class="mat-chip-list-stacked" aria-orientation="vertical">
             <mat-chip
-              *ngFor="let fruit of fruits"
-              [selectable]="selectable"
+              *ngFor="let exM of day.data"
               [removable]="removable"
-              (removed)="remove(fruit)">
-              {{fruit}}
-              <mat-icon matChipRemove *ngIf="removable" fxFlex fxLayout fxLayoutAlign="flex-end">cancel</mat-icon>
+              (removed)="remove(exM, day.data)">
+              {{exM.name}}
+              <mat-icon matChipRemove *ngIf="removable" fxFlex fxLayout fxLayoutAlign="flex-end">
+                cancel
+              </mat-icon>
             </mat-chip>
           </mat-chip-list>
-          <input
-            #fruitInput
-            [formControl]="fruitCtrl"
-            [matAutocomplete]="auto"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)">
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let ex of exercises$ | async" [value]="ex.name">
-              {{ex.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+          <mat-form-field>
+            <mat-select (selectionChange)="add($event, day.data)" placeholder="Select an Exercise">
+              <mat-option *ngFor="let ex of exercises$ | async" [value]="ex">
+                {{ex.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
-      <div>
-        <mat-form-field>
-          <h4>Tuesday</h4>
-          <mat-chip-list #chipList aria-label="Fruit selection" class="mat-chip-list-stacked" aria-orientation="vertical">
-            <mat-chip
-              *ngFor="let fruit of fruits"
-              [selectable]="selectable"
-              [removable]="removable"
-              (removed)="remove(fruit)">
-              {{fruit}}
-              <mat-icon matChipRemove *ngIf="removable" fxFlex fxLayout fxLayoutAlign="flex-end">cancel</mat-icon>
-            </mat-chip>
-          </mat-chip-list>
-          <input
-            #fruitInput
-            [formControl]="fruitCtrl"
-            [matAutocomplete]="auto"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)">
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let ex of exercises$ | async" [value]="ex.name">
-              {{ex.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field>
-          <h4>Wednesday</h4>
-          <mat-chip-list #chipList aria-label="Fruit selection" class="mat-chip-list-stacked" aria-orientation="vertical">
-            <mat-chip
-              *ngFor="let fruit of fruits"
-              [selectable]="selectable"
-              [removable]="removable"
-              (removed)="remove(fruit)">
-              {{fruit}}
-              <mat-icon matChipRemove *ngIf="removable" fxFlex fxLayout fxLayoutAlign="flex-end">cancel</mat-icon>
-            </mat-chip>
-          </mat-chip-list>
-          <input
-            #fruitInput
-            [formControl]="fruitCtrl"
-            [matAutocomplete]="auto"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)">
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let ex of exercises$ | async" [value]="ex.name">
-              {{ex.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field>
-          <h4>Thursday</h4>
-          <mat-chip-list #chipList aria-label="Fruit selection" class="mat-chip-list-stacked" aria-orientation="vertical">
-            <mat-chip
-              *ngFor="let fruit of fruits"
-              [selectable]="selectable"
-              [removable]="removable"
-              (removed)="remove(fruit)">
-              {{fruit}}
-              <mat-icon matChipRemove *ngIf="removable" fxFlex fxLayout fxLayoutAlign="flex-end">cancel</mat-icon>
-            </mat-chip>
-          </mat-chip-list>
-          <input
-            #fruitInput
-            [formControl]="fruitCtrl"
-            [matAutocomplete]="auto"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)">
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let ex of exercises$ | async" [value]="ex.name">
-              {{ex.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field>
-          <h4>Friday</h4>
-          <mat-chip-list #chipList aria-label="Fruit selection" class="mat-chip-list-stacked" aria-orientation="vertical">
-            <mat-chip
-              *ngFor="let fruit of fruits"
-              [selectable]="selectable"
-              [removable]="removable"
-              (removed)="remove(fruit)">
-              {{fruit}}
-              <mat-icon matChipRemove *ngIf="removable" fxFlex fxLayout fxLayoutAlign="flex-end">cancel</mat-icon>
-            </mat-chip>
-          </mat-chip-list>
-          <input
-            #fruitInput
-            [formControl]="fruitCtrl"
-            [matAutocomplete]="auto"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)">
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let ex of exercises$ | async" [value]="ex.name">
-              {{ex.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field>
-          <h4>Saturday</h4>
-          <mat-chip-list #chipList aria-label="Fruit selection" class="mat-chip-list-stacked" aria-orientation="vertical">
-            <mat-chip
-              *ngFor="let fruit of fruits"
-              [selectable]="selectable"
-              [removable]="removable"
-              (removed)="remove(fruit)">
-              {{fruit}}
-              <mat-icon matChipRemove *ngIf="removable" fxFlex fxLayout fxLayoutAlign="flex-end">cancel</mat-icon>
-            </mat-chip>
-          </mat-chip-list>
-          <input
-            #fruitInput
-            [formControl]="fruitCtrl"
-            [matAutocomplete]="auto"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)">
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let ex of exercises$ | async" [value]="ex.name">
-              {{ex.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field>
-          <h4>Sunday</h4>
-          <mat-chip-list #chipList aria-label="Fruit selection" class="mat-chip-list-stacked" aria-orientation="vertical">
-            <mat-chip
-              *ngFor="let fruit of fruits"
-              [selectable]="selectable"
-              [removable]="removable"
-              (removed)="remove(fruit)">
-              {{fruit}}
-              <mat-icon matChipRemove *ngIf="removable" fxFlex fxLayout fxLayoutAlign="flex-end">cancel</mat-icon>
-            </mat-chip>
-          </mat-chip-list>
-          <input
-            #fruitInput
-            [formControl]="fruitCtrl"
-            [matAutocomplete]="auto"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)">
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let ex of exercises$ | async" [value]="ex.name">
-              {{ex.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </div>
-    </div>
-  </mat-card-content>
+    </mat-card-content>
   </mat-card>
 </section>

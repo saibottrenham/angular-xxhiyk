@@ -12,7 +12,6 @@ import {
   MatListModule,
   MatTabsModule,
   MatCardModule,
-  MatSelectModule,
   MatProgressSpinnerModule,
   MatDialogModule,
   MatTableModule,
@@ -20,7 +19,8 @@ import {
   MatPaginatorModule,
   MatSnackBarModule,
   MatChipsModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatSelectModule
 } from '@angular/material';
 
 @NgModule({
@@ -45,7 +45,8 @@ import {
     MatPaginatorModule,
     MatSnackBarModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSelectModule
   ],
   exports: [
     MatButtonModule,

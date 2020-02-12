@@ -13,6 +13,12 @@ mat-card {
 .new-training {
   padding: 30px;
 }
+mat-form-field {
+  margin-top: 1em;
+}
+h4 {
+  text-transform: capitalize;
+}
 
 .box {
   width: 100%;
@@ -20,18 +26,17 @@ mat-card {
   flex-wrap: wrap;
 }
 .box>* {
+  box-sizing: border-box;
+  padding: 1em;
   text-align: center;
   flex: 0 0 25%;
   @media screen and ($mat-small) {
-    text-align: center;
     flex: 0 0 33.333%;
   }
   @media screen and ($mat-xsmall) {
-    text-align: center;
     flex: 0 0 50%;
   }
   @media screen and ($mat-xs) {
-    text-align: center;
     flex: 0 0 100%;
   }
 }
