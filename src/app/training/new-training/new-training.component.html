@@ -2,27 +2,29 @@
   <mat-card fxFlex fxFlexAlign="center">
     <mat-card-content>
       <div class="box" fxFlexAlign="center">
-        <div *ngFor="let day of week">
-          <h4>{{day.day}}</h4>
-          <mat-chip-list class="mat-chip-list-stacked" aria-orientation="vertical">
-            <mat-chip
-              *ngFor="let exM of day.data"
-              [removable]="removable"
-              (removed)="remove(exM, day.data)">
-              {{exM.name}}
-              <mat-icon matChipRemove *ngIf="removable" fxFlex fxLayout fxLayoutAlign="flex-end">
-                cancel
-              </mat-icon>
-            </mat-chip>
-          </mat-chip-list>
-          <mat-form-field>
-            <mat-select (selectionChange)="add($event, day.data)" placeholder="Select an Exercise">
-              <mat-option *ngFor="let ex of exercises$ | async" [value]="ex">
-                {{ex.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+        <ng-container *ngFor="let weekPlan of weekPlan$ | async">
+          <div *ngFor="let week of weekPlan.week">
+            <h4>{{week.day}}</h4>
+            <mat-chip-list class="mat-chip-list-stacked" aria-orientation="vertical">
+              <mat-chip
+                *ngFor="let exM of week.data"
+                [removable]="removable"
+                (removed)="remove(exM, week.data, weekPlan)">
+                {{exM.name}}
+                <mat-icon matChipRemove *ngIf="removable" fxFlex fxLayout fxLayoutAlign="flex-end">
+                  cancel
+                </mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+            <mat-form-field>
+              <mat-select (selectionChange)="add($event, week.data, weekPlan)" placeholder="Select an Exercise">
+                <mat-option *ngFor="let ex of exercises$ | async" [value]="ex">
+                  {{ex.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </ng-container>
       </div>
     </mat-card-content>
   </mat-card>

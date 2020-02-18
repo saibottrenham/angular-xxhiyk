@@ -1,6 +1,6 @@
 export interface Exercise {
   id: string;
-  userID: string;
+  userID?: string;
   name: string;
   link: string;
   weight: number;
@@ -8,4 +8,10 @@ export interface Exercise {
   reps: number;
   date?: Date;
   state?: 'completed' | 'cancelled' | null;
+}
+
+export interface WeekPlan {
+  id: string;
+  userID?: string;
+  week: any;
 }

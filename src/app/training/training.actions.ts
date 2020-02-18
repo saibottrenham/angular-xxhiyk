@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { Exercise } from './exercise.model';
 
 export const SET_AVAILABLE_TRAININGS = '[Training] Set Available Trainings';
+export const SET_WEEK_PLAN = '[Training] Set Week Plan';
 export const SET_FINISHED_TRAININGS = '[Training] Set Unauthenticated';
 export const START_TRAINING = '[Training] Start Training';
 export const STOP_TRAINING = '[Training] Stop Training';
@@ -10,6 +11,12 @@ export class SetAvailableTrainings implements Action {
   readonly type = SET_AVAILABLE_TRAININGS;
 
   constructor(public payload: Exercise[]) {}
+}
+
+export class SetWeekPlan implements Action {
+  readonly type = SET_WEEK_PLAN;
+
+  constructor(public payload: any) {}
 }
 
 export class SetFinishedTrainings implements Action {
@@ -32,4 +39,5 @@ export type TrainingActions =
   SetAvailableTrainings |
   SetFinishedTrainings |
   StartTraining |
-  StopTraining;
+  StopTraining |
+  SetWeekPlan;

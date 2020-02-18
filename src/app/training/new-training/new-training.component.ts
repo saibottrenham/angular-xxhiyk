@@ -6,7 +6,7 @@ import * as fromTraining from '../training.reducer';
 import { Observable } from 'rxjs';
 
 import { TrainingService } from '../training.service';
-import { Exercise } from '../exercise.model';
+import { Exercise, WeekPlan } from '../exercise.model';
 
 @Component({
   selector: 'app-new-training',
@@ -15,43 +15,43 @@ import { Exercise } from '../exercise.model';
 })
 export class NewTrainingComponent implements OnInit {
   exercises$: Observable<Exercise[]>;
+  weekPlan$: Observable<WeekPlan>;
   isLoading$: Observable<boolean>;
   removable = true;
-  week = [
-    {day: 'monday', data: []},
-    {day: 'tuesday', data: []},
-    {day: 'wednesday', data: []},
-    {day: 'thursday', data: []},
-    {day: 'friday', data: []},
-    {day: 'saturday', data: []},
-    {day: 'sunday', data: []}
-    ];
 
   constructor(private trainingService: TrainingService, private store: Store<fromTraining.State>) {
   }
 
-  public add(event: any, arr: Exercise[]) {
+  public add(event: any, arr: Exercise[], weekPlan: any) {
     if (event ) {
       arr.push(event.value);
       const matSelect: any = event.source;
       matSelect.writeValue(null);
+      this.trainingService.submitTrainingPlan(weekPlan);
     }
   }
 
-  public remove(ex: Exercise, arr: Exercise[]): void {
+  public remove(ex: Exercise, arr: Exercise[], weekPlan: any): void {
     const index: number = arr.indexOf(ex);
     if (index >= 0) {
       arr.splice(index, 1);
+      this.trainingService.submitTrainingPlan(weekPlan);
     }
   }
 
   ngOnInit() {
     this.isLoading$ = this.store.select(fromRoot.getIsLoading);
     this.exercises$ = this.store.select(fromTraining.getAvailableExercises);
+    this.weekPlan$ = this.store.select(fromTraining.getWeekPlan);
     this.fetchExercises();
+    this.fetchWeekPlan();
   }
 
   fetchExercises() {
     this.trainingService.fetchAvailableExercises();
+  }
+
+  fetchWeekPlan() {
+    this.trainingService.fetchWeekPlan();
   }
 }

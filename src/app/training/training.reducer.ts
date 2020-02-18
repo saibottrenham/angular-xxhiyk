@@ -4,7 +4,8 @@ import {
   STOP_TRAINING,
   START_TRAINING,
   SET_AVAILABLE_TRAININGS,
-  SET_FINISHED_TRAININGS
+  SET_FINISHED_TRAININGS,
+  SET_WEEK_PLAN
 } from './training.actions';
 import { Exercise } from './exercise.model';
 import * as fromRoot from '../app.reducer';
@@ -13,6 +14,7 @@ export interface TrainingState {
   availableExercises: Exercise[];
   finishedExercises: Exercise[];
   activeTraining: Exercise;
+  weekPlan: any;
 }
 
 export interface State extends fromRoot.State {
@@ -21,6 +23,7 @@ export interface State extends fromRoot.State {
 
 const initalState: TrainingState = {
   availableExercises: [],
+  weekPlan: [],
   finishedExercises: [],
   activeTraining: null
 };
@@ -31,6 +34,11 @@ export function trainingReducer(state = initalState, action: TrainingActions) {
       return {
         ...state,
         availableExercises: action.payload
+      };
+    case SET_WEEK_PLAN:
+      return {
+        ...state,
+        weekPlan: action.payload
       };
     case SET_FINISHED_TRAININGS:
       return {
@@ -53,6 +61,7 @@ export function trainingReducer(state = initalState, action: TrainingActions) {
 }
 export const getTrainingState = createFeatureSelector<TrainingState>('training');
 export const getAvailableExercises = createSelector(getTrainingState,  (state: TrainingState) => state.availableExercises);
+export const getWeekPlan = createSelector(getTrainingState,  (state: TrainingState) => state.weekPlan);
 export const getFinishedExercises = createSelector(getTrainingState, (state: TrainingState) => state.finishedExercises);
 export const getActiveTraining = createSelector(getTrainingState, (state: TrainingState) => state.activeTraining);
 export const getIsTraining =  createSelector(getTrainingState, (state: TrainingState) => state.activeTraining != null);

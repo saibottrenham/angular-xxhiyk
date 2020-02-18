@@ -17,6 +17,18 @@ import { take } from 'rxjs/operators';
 export class TrainingService {
   private userID: string;
   private fbSubs: Subscription[] = [];
+  private week_plan = [{
+    id: null,
+    week: [
+      {day: 'monday', data: []},
+      {day: 'tuesday', data: []},
+      {day: 'wednesday', data: []},
+      {day: 'thursday', data: []},
+      {day: 'friday', data: []},
+      {day: 'saturday', data: []},
+      {day: 'sunday', data: []}
+    ]
+  }];
 
   constructor(
     private db: AngularFirestore,
@@ -53,8 +65,31 @@ export class TrainingService {
       }));
   }
 
-  startExercise(selectedId: string) {
-    this.store.dispatch(new Training.StartTraining(selectedId));
+  fetchWeekPlan() {
+    this.store.dispatch(new UI.StartLoading());
+    this.fbSubs.push(this.db
+      .collection('week_plan', ref => ref.where('userID', '==', this.userID))
+      .snapshotChanges()
+      .map(docArray => {
+        return docArray.map(doc => {
+          return {
+            id: doc.payload.doc.id,
+            week: JSON.parse(doc.payload.doc.data()['week']),
+          };
+        });
+      })
+      .subscribe((week_plan: any) => {
+        console.log(week_plan);
+        if (week_plan.length === 0) {
+          this.store.dispatch(new Training.SetWeekPlan(this.week_plan));
+        } else {
+          this.store.dispatch(new Training.SetWeekPlan(week_plan));
+        }
+        this.store.dispatch(new UI.StopLoading());
+      }, error => {
+        this.store.dispatch(new UI.StopLoading());
+        this.uiService.showSnackbar('Something Went wrong, can\'t fetch table', null, 3000);
+      }));
   }
 
   completeExercise() {
@@ -86,28 +121,36 @@ export class TrainingService {
     }));
   }
 
-  addExercise(e: Exercise) {
-    e.userID = this.userID;
+  addToDB(data: any, path: string) {
     this.store.dispatch(new UI.StartLoading());
-    this.db.collection('availableExercises')
-      .add(e).then(() => {
+    this.db.collection(path)
+      .add(data).then(() => {
       this.store.dispatch(new UI.StopLoading());
     }).catch(() => {
       this.store.dispatch(new UI.StopLoading());
-      this.uiService.showSnackbar('Somehting Went wrong, can\'t save exercise', null, 3000);
+      this.uiService.showSnackbar('Something Went wrong, can\'t save table', null, 3000);
     });
+  }
+
+  updateToDB(data: any, path: string, id: string) {
+    this.store.dispatch(new UI.StartLoading());
+    this.db.collection(path, ref => ref.where('userID', '==', this.userID))
+      .doc(id).update(data).then(() => {
+      this.store.dispatch(new UI.StopLoading());
+    }).catch(() => {
+      this.store.dispatch(new UI.StopLoading());
+      this.uiService.showSnackbar('Something Went wrong, can\'t update table', null, 3000);
+    });
+  }
+
+  addExercise(e: Exercise) {
+    e.userID = this.userID;
+    this.addToDB(e, 'availableExercises');
   }
 
   updateExercise(e: Exercise, id: string) {
     e.userID = this.userID;
-    this.store.dispatch(new UI.StartLoading());
-    this.db.collection('availableExercises', ref => ref.where('userID', '==', this.userID))
-      .doc(id).update(e).then(() => {
-      this.store.dispatch(new UI.StopLoading());
-    }).catch(() => {
-      this.store.dispatch(new UI.StopLoading());
-      this.uiService.showSnackbar('Somehting Went wrong, can\'t update exercise', null, 3000);
-    });
+    this.updateToDB(e, 'availableExercises', id);
   }
 
   deleteExercise(id: string) {
@@ -117,8 +160,18 @@ export class TrainingService {
       this.store.dispatch(new UI.StopLoading());
     }).catch(() => {
       this.store.dispatch(new UI.StopLoading());
-      this.uiService.showSnackbar('Somehting Went wrong, can\'t delete exercise', null, 3000);
+      this.uiService.showSnackbar('Something Went wrong, can\'t delete exercise', null, 3000);
     });
+  }
+
+  submitTrainingPlan(week: any) {
+    console.log(week.week, this.userID);
+    const data = { week: JSON.stringify(week.week), 'userID': this.userID };
+    if (!week.id) {
+      this.addToDB( data, 'week_plan');
+    } else {
+      this.updateToDB( data, 'week_plan', week.id);
+    }
   }
 
   cancelSubscriptions() {
