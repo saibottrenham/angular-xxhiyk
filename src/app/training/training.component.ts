@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { TrainingService } from './training.service';
@@ -10,12 +10,8 @@ import { Observable, Subscription } from 'rxjs';
   templateUrl: './training.component.html',
   styleUrls: ['./training.component.css']
 })
-export class TrainingComponent implements OnInit {
+export class TrainingComponent {
   ongoingTraining$: Observable<boolean>;
 
   constructor(private trainingService: TrainingService, private store: Store<fromTraining.State>) {}
-
-  ngOnInit() {
-    this.ongoingTraining$ = this.store.select(fromTraining.getIsTraining);
-  }
 }

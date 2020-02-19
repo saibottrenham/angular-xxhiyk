@@ -79,7 +79,6 @@ export class TrainingService {
         });
       })
       .subscribe((week_plan: any) => {
-        console.log(week_plan);
         if (week_plan.length === 0) {
           this.store.dispatch(new Training.SetWeekPlan(this.week_plan));
         } else {
@@ -90,35 +89,6 @@ export class TrainingService {
         this.store.dispatch(new UI.StopLoading());
         this.uiService.showSnackbar('Something Went wrong, can\'t fetch table', null, 3000);
       }));
-  }
-
-  completeExercise() {
-    this.store.select(fromTraining.getActiveTraining).pipe(take(1)).subscribe(e => {
-      this.addDataToDatabase({
-        ...e,
-        date: new Date(),
-        state: 'completed'
-      });
-      this.store.dispatch(new Training.StopTraining());
-    });
-  }
-
-  cancelExercise(progress: number) {
-    this.store.select(fromTraining.getActiveTraining).pipe(take(1)).subscribe(e => {
-      this.addDataToDatabase({
-        ...e,
-        date: new Date(),
-        state: 'cancelled'
-      });
-      this.store.dispatch(new Training.StopTraining());
-    });
-  }
-
-  fetchCompletedOrCancelledExercises() {
-    this.fbSubs.push(this.db.collection('finishedExercises', ref => ref.where('userID', '==', this.userID))
-      .valueChanges().subscribe((exercises: Exercise[]) => {
-      this.store.dispatch(new Training.SetFinishedTrainings(exercises));
-    }));
   }
 
   addToDB(data: any, path: string) {
@@ -165,7 +135,6 @@ export class TrainingService {
   }
 
   submitTrainingPlan(week: any) {
-    console.log(week.week, this.userID);
     const data = { week: JSON.stringify(week.week), 'userID': this.userID };
     if (!week.id) {
       this.addToDB( data, 'week_plan');
@@ -178,8 +147,5 @@ export class TrainingService {
     this.fbSubs.forEach(sub => sub.unsubscribe());
   }
 
-  private addDataToDatabase(exercise: Exercise) {
-    this.db.collection('finishedExercises').add(exercise);
-  }
 }
 

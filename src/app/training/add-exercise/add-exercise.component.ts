@@ -8,11 +8,11 @@ import { TrainingService } from '../training.service';
 import * as fromRoot from '../../app.reducer';
 
 @Component({
-  selector: 'app-add-training',
-  templateUrl: './add-training.component.html',
-  styleUrls: ['./add-training.component.scss']
+  selector: 'app-add-exercise',
+  templateUrl: './add-exercise.component.html',
+  styleUrls: ['./add-exercise.component.scss']
 })
-export class AddTrainingComponent implements OnInit {
+export class AddExerciseComponent implements OnInit {
   @Input() isDialog = false;
   @Input() ex = null;
   addEx: FormGroup;

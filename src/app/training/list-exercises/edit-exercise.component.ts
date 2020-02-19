@@ -3,11 +3,11 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-edit-training',
-  template: `<app-add-training
+  template: `<app-add-exercise
                 [isDialog]="true"
                 [ex]="data"
-              ></app-add-training>`
+              ></app-add-exercise>`
 })
-export class EditTrainingComponent {
+export class EditExerciseComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 }

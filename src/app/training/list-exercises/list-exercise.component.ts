@@ -1,21 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import * as fromRoot from '../../app.reducer';
 import { Store } from '@ngrx/store';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as fromTraining from '../training.reducer';
 import { Exercise } from '../exercise.model';
 import { TrainingService } from '../training.service';
 import { MatDialog } from '@angular/material';
-import { EditTrainingComponent } from './edit-training.component';
+import { EditExerciseComponent } from './edit-exercise.component';
 
 @Component({
-  selector: 'app-create-training',
-  templateUrl: './create-training.component.html',
-  styleUrls: ['./create-training.component.scss']
+  selector: 'app-list-exercise',
+  templateUrl: './list-exercise.component.html',
+  styleUrls: ['./list-exercise.component.scss']
 })
-export class CreateTrainingComponent implements OnInit {
+export class ListExerciseComponent implements OnInit {
   exercises$: Observable<Exercise[]>;
   isLoading$: Observable<boolean>;
 
@@ -31,7 +29,7 @@ export class CreateTrainingComponent implements OnInit {
 
   openEdit(e) {
     console.log(e);
-    const dialogRef = this.dialog.open(EditTrainingComponent, {
+    const dialogRef = this.dialog.open(EditExerciseComponent, {
       data: {
         id: e.id,
         name: e.name,

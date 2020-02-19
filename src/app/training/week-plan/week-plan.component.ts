@@ -9,11 +9,11 @@ import { TrainingService } from '../training.service';
 import { Exercise, WeekPlan } from '../exercise.model';
 
 @Component({
-  selector: 'app-new-training',
-  templateUrl: './new-training.component.html',
-  styleUrls: ['./new-training.component.scss']
+  selector: 'app-week-plan',
+  templateUrl: './week-plan.component.html',
+  styleUrls: ['./week-plan.component.scss']
 })
-export class NewTrainingComponent implements OnInit {
+export class WeekPlanComponent implements OnInit {
   exercises$: Observable<Exercise[]>;
   weekPlan$: Observable<WeekPlan>;
   isLoading$: Observable<boolean>;
