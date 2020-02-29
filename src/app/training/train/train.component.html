@@ -1,0 +1,41 @@
+<section class="new-training">
+  <ng-container *ngFor="let weekPlan of weekPlan$ | async">
+    <ng-container *ngFor="let week of weekPlan.week">
+      <ng-container *ngIf="week.day === this.today">
+        <mat-card>
+          <ng-container *ngIf="week.data.length">
+            <mat-card-header>
+                <mat-card-title>
+                  {{ week.day.toUpperCase() }} - {{ week.data[pageIndex]?.name }}
+                </mat-card-title>
+              <mat-card-subtitle>
+                Exercise {{pageIndex + 1 }}/{{week.data.length}}:
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <iframe
+                width="100%" height="400px"
+                *ngIf="week.data[pageIndex]?.link"
+                [src]="week.data[pageIndex]?.link | safeUrl"
+                frameBorder="0"
+                allowfullscreen>
+              </iframe>
+            </mat-card-content>
+            <mat-card-actions>
+              <mat-paginator
+                [length]="week.data.length"
+                [pageSize]="1" (page)="getCurrentPageIndex($event)"
+                *ngIf="week.data.length > 1">
+              </mat-paginator>
+            </mat-card-actions>
+          </ng-container>
+          <!-- if we have no exercises -->
+          <mat-card-header *ngIf="!week.data.length">
+            <h2>No Exercises for Today, take a rest mate!</h2>
+          </mat-card-header>
+        </mat-card>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</section>
+

@@ -8,6 +8,8 @@ import { trainingReducer } from './training.reducer';
 import { ListExerciseComponent } from './list-exercises/list-exercise.component';
 import { EditExerciseComponent } from './list-exercises/edit-exercise.component';
 import { AddExerciseComponent } from './add-exercise/add-exercise.component';
+import { TrainComponent } from './train/train.component';
+import { SafeUrlPipe } from './safe-url.pipe';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { AddExerciseComponent } from './add-exercise/add-exercise.component';
     WeekPlanComponent,
     EditExerciseComponent,
     ListExerciseComponent,
-    AddExerciseComponent
+    AddExerciseComponent,
+    TrainComponent,
+    SafeUrlPipe
   ],
   imports: [
     SharedModule,

@@ -28,7 +28,6 @@ export class ListExerciseComponent implements OnInit {
   }
 
   openEdit(e) {
-    console.log(e);
     const dialogRef = this.dialog.open(EditExerciseComponent, {
       data: {
         id: e.id,
