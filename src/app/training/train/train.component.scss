@@ -6,3 +6,13 @@ mat-card {
 .new-training {
   padding: 30px;
 }
+
+.train-content {
+  display: block;
+  width: 50%;
+  float: left;
+}
+
+.mat-card-content {
+  overflow: auto;
+}

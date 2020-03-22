@@ -1,6 +1,20 @@
 <section class="new-training">
   <mat-card fxFlex fxFlexAlign="center">
     <mat-card-content>
+      <div>
+        <button mat-raised-button (click)="addNew()">
+          <mat-icon>
+            add
+          </mat-icon>
+          Add Exercises
+        </button>
+        <button mat-raised-button (click)="list()">
+          <mat-icon>
+            list
+          </mat-icon>
+          List Exercises
+        </button>
+      </div>
       <div class="box" fxFlexAlign="center">
         <ng-container *ngFor="let weekPlan of weekPlan$ | async">
           <div *ngFor="let week of weekPlan.week">

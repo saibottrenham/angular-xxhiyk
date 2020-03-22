@@ -7,6 +7,10 @@ import { Observable } from 'rxjs';
 
 import { TrainingService } from '../training.service';
 import { Exercise, WeekPlan } from '../exercise.model';
+import { EditExerciseComponent } from '../list-exercises/edit-exercise.component';
+import { MatDialog } from '@angular/material';
+import { AddExerciseComponent } from '../add-exercise/add-exercise.component';
+import { ListExerciseComponent } from '../list-exercises/list-exercise.component';
 
 @Component({
   selector: 'app-week-plan',
@@ -19,7 +23,10 @@ export class WeekPlanComponent implements OnInit {
   isLoading$: Observable<boolean>;
   removable = true;
 
-  constructor(private trainingService: TrainingService, private store: Store<fromTraining.State>) {
+  constructor(
+    private trainingService: TrainingService,
+    private store: Store<fromTraining.State>,
+    private dialog: MatDialog) {
   }
 
   public add(event: any, arr: Exercise[], weekPlan: any) {
@@ -54,4 +61,37 @@ export class WeekPlanComponent implements OnInit {
   fetchWeekPlan() {
     this.trainingService.fetchWeekPlan();
   }
+
+  openEdit(e) {
+    console.log(e);
+    const dialogRef = this.dialog.open(EditExerciseComponent, {
+      data: {
+        id: e.id,
+        name: e.name,
+        weight: e.weight,
+        link: e.link,
+        sets: e.sets,
+        reps: e.reps
+      },
+      width: '600px',
+    });
+    dialogRef.afterClosed().subscribe();
+  }
+
+  addNew() {
+    const dialogRef = this.dialog.open(AddExerciseComponent, {
+      width: '600px'
+    });
+    dialogRef.afterClosed().subscribe();
+  }
+
+  list() {
+    const dialogRef = this.dialog.open(ListExerciseComponent, {
+      width: '600px',
+      autoFocus: false,
+      maxHeight: '90vh'
+    });
+    dialogRef.afterClosed().subscribe();
+  }
+
 }

@@ -1,42 +1,40 @@
-<section class="create-training" fxLayout="column" fxLayoutAlign="center center" *ngIf="!isDialog">
-  <form (ngSubmit)="onSubmit()" [formGroup]="addEx">
-    <mat-card fxFlex.xs="100%" fxFlex.sm="100%" fxFlex="600px">
-      <mat-card-title fxLayoutAlign="center">Add Exercise</mat-card-title>
-      <mat-card-content fxLayout="column" fxLayoutAlign="center">
-        <mat-form-field >
-          <mat-label>Exercise Name</mat-label>
-          <input matInput formControlName="exName" required>
-        </mat-form-field>
+<form (ngSubmit)="onSubmit()" [formGroup]="addEx" *ngIf="!isDialog">
+  <mat-card>
+    <mat-card-title fxLayoutAlign="center">Add Exercise</mat-card-title>
+    <mat-card-content fxLayout="column" fxLayoutAlign="center">
+      <mat-form-field >
+        <mat-label>Exercise Name</mat-label>
+        <input matInput formControlName="exName" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Youtube Video link (optional)</mat-label>
+        <input matInput formControlName="exLink" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+        <mat-error>Video links need to be in this format -> https://www.youtube.com/....</mat-error>
+      </mat-form-field>
+      <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-evenly">
         <mat-form-field>
-          <mat-label>Youtube Video link (optional)</mat-label>
-          <input matInput formControlName="exLink" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-          <mat-error>Video links need to be in this format -> https://www.youtube.com/....</mat-error>
-        </mat-form-field>
-        <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-evenly">
-          <mat-form-field>
-            <mat-label>Start weight in kg (optional)</mat-label>
-            <input matInput formControlName="exWeight" placeholder="45">
-            <mat-error>Only Numbers are allowed</mat-error>
-          </mat-form-field>
-        <mat-form-field>
-          <mat-label>Sets (optional)</mat-label>
-          <input matInput formControlName="exSets" placeholder="3">
+          <mat-label>Start weight in kg (optional)</mat-label>
+          <input matInput formControlName="exWeight" placeholder="45">
           <mat-error>Only Numbers are allowed</mat-error>
         </mat-form-field>
-        <mat-form-field>
-          <mat-label>Reps per set (optional)</mat-label>
-          <input matInput formControlName="exReps" placeholder="8">
-          <mat-error>Only Numbers are allowed</mat-error>
-        </mat-form-field>
-        </div>
-        <mat-spinner fxLayoutAlign="center" *ngIf="(isLoadingSubmit$ | async)"></mat-spinner>
-      </mat-card-content>
-      <mat-card-actions fxLayoutAlign="center" *ngIf="!(isLoadingSubmit$ | async)">
-        <button type="submit" mat-raised-button [disabled]="addEx.invalid" color="primary">Add</button>
-      </mat-card-actions>
-    </mat-card>
-  </form>
-</section>
+      <mat-form-field>
+        <mat-label>Sets (optional)</mat-label>
+        <input matInput formControlName="exSets" placeholder="3">
+        <mat-error>Only Numbers are allowed</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Reps per set (optional)</mat-label>
+        <input matInput formControlName="exReps" placeholder="8">
+        <mat-error>Only Numbers are allowed</mat-error>
+      </mat-form-field>
+      </div>
+      <mat-spinner fxLayoutAlign="center" *ngIf="(isLoadingSubmit$ | async)"></mat-spinner>
+    </mat-card-content>
+    <mat-card-actions fxLayoutAlign="center" *ngIf="!(isLoadingSubmit$ | async)">
+      <button type="submit" mat-raised-button [disabled]="addEx.invalid" color="primary">Add</button>
+    </mat-card-actions>
+  </mat-card>
+</form>
 
 <form (ngSubmit)="onSubmit()" [formGroup]="addEx" fxLayout="column" fxLayoutAlign="center" *ngIf="isDialog">
   <mat-form-field >

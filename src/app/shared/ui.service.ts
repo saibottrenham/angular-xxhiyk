@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material';
 
 @Injectable()
 export class UiService {
-  private days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  private days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
   constructor(private snackBar: MatSnackBar) {}
 
@@ -15,6 +15,6 @@ export class UiService {
 
   getTodayWeekDay(index: number = 0) {
     const todayIndex: number = new Date().getDay();
-    return index > 0 ? this.days[index] : this.days[todayIndex - 1];
+    return index > 0 ? this.days[index] : this.days[todayIndex];
   }
 }

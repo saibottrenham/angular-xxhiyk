@@ -1,7 +1,7 @@
 <section class="new-training">
   <ng-container *ngFor="let weekPlan of weekPlan$ | async">
     <ng-container *ngFor="let week of weekPlan.week">
-      <ng-container *ngIf="week.day === this.today">
+      <ng-container *ngIf="week.day === today">
         <mat-card>
           <ng-container *ngIf="week.data.length">
             <mat-card-header>
@@ -13,13 +13,23 @@
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
+              <div class="train-content">
+                <h3 *ngIf="week.data[pageIndex]?.reps">
+                  Reps: {{ week.data[pageIndex].reps }}
+                </h3>
+                <h3 *ngIf="week.data[pageIndex]?.sets">
+                  Sets: {{ week.data[pageIndex].sets }}
+                </h3>
+              </div>
+              <div class="train-content">
               <iframe
-                width="100%" height="400px"
+                width="100%" height="250px"
                 *ngIf="week.data[pageIndex]?.link"
                 [src]="week.data[pageIndex]?.link | safeUrl"
                 frameBorder="0"
                 allowfullscreen>
               </iframe>
+              </div>
             </mat-card-content>
             <mat-card-actions>
               <mat-paginator
@@ -30,8 +40,8 @@
             </mat-card-actions>
           </ng-container>
           <!-- if we have no exercises -->
-          <mat-card-header *ngIf="!week.data.length">
-            <h2>No Exercises for Today, take a rest mate!</h2>
+          <mat-card-header  *ngIf="!week.data.length">
+            <h2>It's {{today}}, No Exercises for Today, take a rest mate!</h2>
           </mat-card-header>
         </mat-card>
       </ng-container>

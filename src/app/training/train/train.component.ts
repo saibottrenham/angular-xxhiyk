@@ -37,5 +37,4 @@ export class TrainComponent implements OnInit {
     this.pageIndex = event.pageIndex;
   }
 
-
 }
