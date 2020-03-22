@@ -16,14 +16,17 @@
         </button>
       </div>
       <div class="box" fxFlexAlign="center">
-        <ng-container *ngFor="let weekPlan of weekPlan$ | async">
+        <ng-container *ngFor="let weekPlan of weekPlan$| async;">
           <div *ngFor="let week of weekPlan.week">
             <h4>{{week.day}}</h4>
-            <mat-chip-list class="mat-chip-list-stacked" aria-orientation="vertical">
+            <mat-chip-list class="mat-chip-list-stacked" aria-orientation="vertical" [selectable]="true">
               <mat-chip
                 *ngFor="let exM of week.data"
                 [removable]="removable"
                 (removed)="remove(exM, week.data, weekPlan)">
+                <mat-icon fxFlex fxLayout fxLayoutAlign="flex-start" (click)="openEdit(exM, weekPlan)">
+                  edit
+                </mat-icon>
                 {{exM.name}}
                 <mat-icon matChipRemove *ngIf="removable" fxFlex fxLayout fxLayoutAlign="flex-end">
                   cancel

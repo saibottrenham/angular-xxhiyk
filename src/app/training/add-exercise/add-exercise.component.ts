@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import * as fromTraining from '../training.reducer';
 import { TrainingService } from '../training.service';
 import * as fromRoot from '../../app.reducer';
+import { WeekPlan } from '../exercise.model';
 
 @Component({
   selector: 'app-add-exercise',
@@ -15,6 +16,7 @@ import * as fromRoot from '../../app.reducer';
 export class AddExerciseComponent implements OnInit {
   @Input() isDialog = false;
   @Input() ex = null;
+  @Input() week: WeekPlan;
   addEx: FormGroup;
   isLoadingSubmit$: Observable<boolean>;
 
@@ -25,20 +27,20 @@ export class AddExerciseComponent implements OnInit {
 
   ngOnInit() {
     this.addEx = new FormGroup({
-      exName: new FormControl('', {validators: [Validators.required]}),
-      exLink: new FormControl('', { validators: [Validators.pattern('https://www.youtube.com/.*')] }),
-      exWeight: new FormControl('', { validators: [Validators.pattern('^[0-9]*$')] }),
-      exSets: new FormControl('', { validators: [Validators.pattern('^[0-9]*$')] }),
-      exReps: new FormControl('', { validators: [Validators.pattern('^[0-9]*$')] })
+      name: new FormControl('', {validators: [Validators.required]}),
+      link: new FormControl('', { validators: [Validators.pattern('https://www.youtube.com/.*')] }),
+      weight: new FormControl('', { validators: [Validators.pattern('^[0-9]*$')] }),
+      sets: new FormControl('', { validators: [Validators.pattern('^[0-9]*$')] }),
+      reps: new FormControl('', { validators: [Validators.pattern('^[0-9]*$')] })
     });
 
     if (this.isDialog) {
       this.addEx.patchValue({
-        exName: this.ex.name,
-        exLink: this.ex.link,
-        exWeight: this.ex.weight,
-        exSets: this.ex.sets,
-        exReps: this.ex.reps
+        name: this.ex.name,
+        link: this.ex.link,
+        weight: this.ex.weight,
+        sets: this.ex.sets,
+        reps: this.ex.reps
       });
     }
   }
@@ -50,6 +52,8 @@ export class AddExerciseComponent implements OnInit {
   }
 
   onUpdate() {
-    this.trainingService.updateExercise(this.addEx.value, this.ex.id);
+    const ex = this.addEx.value;
+    ex.id = this.ex.id;
+    this.trainingService.updateExercise(ex, this.week);
   }
 }

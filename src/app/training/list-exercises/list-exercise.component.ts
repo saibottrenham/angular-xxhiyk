@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as fromRoot from '../../app.reducer';
 import { Store } from '@ngrx/store';
 import * as fromTraining from '../training.reducer';
-import { Exercise } from '../exercise.model';
+import { Exercise, WeekPlan } from '../exercise.model';
 import { TrainingService } from '../training.service';
-import { MatDialog } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { EditExerciseComponent } from './edit-exercise.component';
 
 @Component({
@@ -20,7 +20,8 @@ export class ListExerciseComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private store: Store<fromTraining.State>,
-    private trainingService: TrainingService) { }
+    private trainingService: TrainingService,
+    @Inject(MAT_DIALOG_DATA) public week: any) { }
 
   ngOnInit() {
     this.isLoading$ = this.store.select(fromRoot.getIsLoading);
@@ -35,7 +36,8 @@ export class ListExerciseComponent implements OnInit {
         weight: e.weight,
         link: e.link,
         sets: e.sets,
-        reps: e.reps
+        reps: e.reps,
+        week: this.week.week[0]
       },
       width: '600px',
     });

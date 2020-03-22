@@ -22,6 +22,7 @@ export class WeekPlanComponent implements OnInit {
   weekPlan$: Observable<WeekPlan>;
   isLoading$: Observable<boolean>;
   removable = true;
+  public weekPlanData: WeekPlan;
 
   constructor(
     private trainingService: TrainingService,
@@ -30,7 +31,7 @@ export class WeekPlanComponent implements OnInit {
   }
 
   public add(event: any, arr: Exercise[], weekPlan: any) {
-    if (event ) {
+    if (event) {
       arr.push(event.value);
       const matSelect: any = event.source;
       matSelect.writeValue(null);
@@ -50,6 +51,9 @@ export class WeekPlanComponent implements OnInit {
     this.isLoading$ = this.store.select(fromRoot.getIsLoading);
     this.exercises$ = this.store.select(fromTraining.getAvailableExercises);
     this.weekPlan$ = this.store.select(fromTraining.getWeekPlan);
+    this.weekPlan$.subscribe(data => {
+      this.weekPlanData = data;
+    });
     this.fetchExercises();
     this.fetchWeekPlan();
   }
@@ -62,8 +66,7 @@ export class WeekPlanComponent implements OnInit {
     this.trainingService.fetchWeekPlan();
   }
 
-  openEdit(e) {
-    console.log(e);
+  openEdit(e: any, weekPlan: any) {
     const dialogRef = this.dialog.open(EditExerciseComponent, {
       data: {
         id: e.id,
@@ -71,7 +74,8 @@ export class WeekPlanComponent implements OnInit {
         weight: e.weight,
         link: e.link,
         sets: e.sets,
-        reps: e.reps
+        reps: e.reps,
+        week: weekPlan
       },
       width: '600px',
     });
@@ -87,6 +91,9 @@ export class WeekPlanComponent implements OnInit {
 
   list() {
     const dialogRef = this.dialog.open(ListExerciseComponent, {
+      data: {
+        week: this.weekPlanData
+      },
       width: '600px',
       autoFocus: false,
       maxHeight: '90vh'

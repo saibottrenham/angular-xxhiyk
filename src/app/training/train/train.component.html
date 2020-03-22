@@ -20,6 +20,9 @@
                 <h3 *ngIf="week.data[pageIndex]?.sets">
                   Sets: {{ week.data[pageIndex].sets }}
                 </h3>
+                <h3 *ngIf="week.data[pageIndex]?.weight">
+                  Weight: {{ week.data[pageIndex].weight }}
+                </h3>
               </div>
               <div class="train-content">
               <iframe

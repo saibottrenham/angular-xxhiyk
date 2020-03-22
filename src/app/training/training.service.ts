@@ -3,7 +3,7 @@ import 'rxjs/add/operator/map';
 import { Subscription } from 'rxjs/subscription';
 import { Store } from '@ngrx/store';
 
-import { Exercise } from './exercise.model';
+import { Exercise, WeekPlan } from './exercise.model';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -48,11 +48,11 @@ export class TrainingService {
         return docArray.map(doc => {
           return {
             id: doc.payload.doc.id,
-            name: doc.payload.doc.data()['exName'],
-            link: doc.payload.doc.data()['exLink'],
-            weight: doc.payload.doc.data()['exWeight'],
-            sets: doc.payload.doc.data()['exSets'],
-            reps: doc.payload.doc.data()['exReps']
+            name: doc.payload.doc.data()['name'],
+            link: doc.payload.doc.data()['link'],
+            weight: doc.payload.doc.data()['weight'],
+            sets: doc.payload.doc.data()['sets'],
+            reps: doc.payload.doc.data()['reps']
           };
         });
       })
@@ -102,10 +102,10 @@ export class TrainingService {
     });
   }
 
-  updateToDB(data: any, path: string, id: string) {
+  updateToDB(data: any, path: string, id: string = null) {
     this.store.dispatch(new UI.StartLoading());
     this.db.collection(path, ref => ref.where('userID', '==', this.userID))
-      .doc(id).update(data).then(() => {
+      .doc(id !== null ? id : data.id).update(data).then(() => {
       this.store.dispatch(new UI.StopLoading());
     }).catch(() => {
       this.store.dispatch(new UI.StopLoading());
@@ -118,9 +118,17 @@ export class TrainingService {
     this.addToDB(e, 'availableExercises');
   }
 
-  updateExercise(e: Exercise, id: string) {
+  updateExercise(e: Exercise, week: any) {
+    for (let i = 0; i < week?.week.length ? week.week.length : 0; i++) {
+      for (let ii = 0; ii < week.week[i].data.length; ii++) {
+        if (e.id === week.week[i].data[ii].id) {
+          week.week[i].data[ii] = e;
+        }
+      }
+    }
     e.userID = this.userID;
-    this.updateToDB(e, 'availableExercises', id);
+    this.updateToDB(e, 'availableExercises');
+    this.submitTrainingPlan(week);
   }
 
   deleteExercise(id: string) {
@@ -135,11 +143,11 @@ export class TrainingService {
   }
 
   submitTrainingPlan(week: any) {
-    const data = { week: JSON.stringify(week.week), 'userID': this.userID };
+    const data = { week: JSON.stringify(week.week), 'userID': this.userID};
     if (!week.id) {
-      this.addToDB( data, 'week_plan');
+      this.addToDB(data, 'week_plan');
     } else {
-      this.updateToDB( data, 'week_plan', week.id);
+      this.updateToDB(data, 'week_plan', week.id);
     }
   }
 

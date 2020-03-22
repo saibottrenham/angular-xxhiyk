@@ -4,27 +4,27 @@
     <mat-card-content fxLayout="column" fxLayoutAlign="center">
       <mat-form-field >
         <mat-label>Exercise Name</mat-label>
-        <input matInput formControlName="exName" required>
+        <input matInput formControlName="name" required>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Youtube Video link (optional)</mat-label>
-        <input matInput formControlName="exLink" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+        <input matInput formControlName="link" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
         <mat-error>Video links need to be in this format -> https://www.youtube.com/....</mat-error>
       </mat-form-field>
       <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-evenly">
         <mat-form-field>
           <mat-label>Start weight in kg (optional)</mat-label>
-          <input matInput formControlName="exWeight" placeholder="45">
+          <input matInput formControlName="weight" placeholder="45">
           <mat-error>Only Numbers are allowed</mat-error>
         </mat-form-field>
       <mat-form-field>
         <mat-label>Sets (optional)</mat-label>
-        <input matInput formControlName="exSets" placeholder="3">
+        <input matInput formControlName="sets" placeholder="3">
         <mat-error>Only Numbers are allowed</mat-error>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Reps per set (optional)</mat-label>
-        <input matInput formControlName="exReps" placeholder="8">
+        <input matInput formControlName="reps" placeholder="8">
         <mat-error>Only Numbers are allowed</mat-error>
       </mat-form-field>
       </div>
@@ -39,26 +39,26 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="addEx" fxLayout="column" fxLayoutAlign="center" *ngIf="isDialog">
   <mat-form-field >
     <mat-label>Exercise Name</mat-label>
-    <input matInput formControlName="exName" required>
+    <input matInput formControlName="name" required>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Youtube Video link (optional)</mat-label>
-    <input matInput formControlName="exLink" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+    <input matInput formControlName="link" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
     <mat-error>Video links need to be in this format -> https://www.youtube.com/....</mat-error>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Start weight in kg (optional)</mat-label>
-    <input matInput formControlName="exWeight" placeholder="45">
+    <input matInput formControlName="weight" placeholder="45">
     <mat-error>Only Numbers are allowed</mat-error>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Sets (optional)</mat-label>
-    <input matInput formControlName="exSets" placeholder="3">
+    <input matInput formControlName="sets" placeholder="3">
     <mat-error>Only Numbers are allowed</mat-error>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Reps per set (optional)</mat-label>
-    <input matInput formControlName="exReps" placeholder="8">
+    <input matInput formControlName="reps" placeholder="8">
     <mat-error>Only Numbers are allowed</mat-error>
   </mat-form-field>
   <button type="button" mat-raised-button [mat-dialog-close]="true" (click)="onUpdate()" color="primary">Update</button>
