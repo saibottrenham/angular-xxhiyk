@@ -17,6 +17,7 @@ export class TrainComponent implements OnInit {
   public today: string;
   public weekPlan$: Observable<WeekPlan>;
   public pageIndex = 0;
+  private indexKey = 'pageIndex';
 
   constructor(
     private trainingService: TrainingService,
@@ -27,6 +28,7 @@ export class TrainComponent implements OnInit {
     this.weekPlan$ = this.store.select(fromTraining.getWeekPlan);
     this.today = this.uiService.getTodayWeekDay();
     this.fetchWeekPlan();
+    this.pageIndex = JSON.parse(localStorage.getItem(this.indexKey)) > 0 ? JSON.parse(localStorage.getItem(this.indexKey)) : 0;
   }
 
   fetchWeekPlan() {
@@ -35,6 +37,7 @@ export class TrainComponent implements OnInit {
 
   getCurrentPageIndex(event: PageEvent) {
     this.pageIndex = event.pageIndex;
+    localStorage.setItem(this.indexKey, JSON.stringify(this.pageIndex));
   }
 
 }

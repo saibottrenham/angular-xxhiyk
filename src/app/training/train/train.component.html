@@ -36,6 +36,7 @@
             </mat-card-content>
             <mat-card-actions>
               <mat-paginator
+                [pageIndex]="pageIndex <= week.data.length ? pageIndex : 0"
                 [length]="week.data.length"
                 [pageSize]="1" (page)="getCurrentPageIndex($event)"
                 *ngIf="week.data.length > 1">
