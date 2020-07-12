@@ -7,6 +7,7 @@ import { MAT_DIALOG_DATA } from '@angular/material';
                 [isDialog]="true"
                 [ex]="data"
                 [week]="data.week"
+                [addNewEx]="false"
               ></app-add-exercise>`
 })
 export class EditExerciseComponent {

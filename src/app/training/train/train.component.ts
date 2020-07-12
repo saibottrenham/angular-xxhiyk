@@ -20,6 +20,7 @@ export class TrainComponent implements OnInit {
   public currentDay = null;
   public totalTrainEx = 0;
   private indexKey = 'pageIndex';
+  public week = null;
 
   constructor(
     private trainingService: TrainingService,
@@ -33,7 +34,8 @@ export class TrainComponent implements OnInit {
     this.pageIndex = JSON.parse(localStorage.getItem(this.indexKey)) > 0 ? JSON.parse(localStorage.getItem(this.indexKey)) : 0;
     this.weekPlan$.subscribe((e) => {
       if (e[0] != null) {
-        this.currentDay = e[0].week.filter((d) => d.day === this.today)[0];
+        this.week = e[0];
+        this.currentDay = this.week.week.filter((d) => d.day === this.today)[0];
         this.totalTrainEx = this.currentDay.data.length;
         this.pageIndex = this.pageIndex < this.totalTrainEx ? this.pageIndex : 0;
       }

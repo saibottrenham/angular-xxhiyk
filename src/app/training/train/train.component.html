@@ -11,15 +11,12 @@
       </mat-card-header>
       <mat-card-content>
         <div class="train-content">
-          <h3 *ngIf="currentDay.data[pageIndex]?.reps">
-            Reps: {{ currentDay.data[pageIndex].reps }}
-          </h3>
-          <h3 *ngIf="currentDay.data[pageIndex]?.sets">
-            Sets: {{ currentDay.data[pageIndex].sets }}
-          </h3>
-          <h3 *ngIf="currentDay.data[pageIndex]?.weight">
-            Weight: {{ currentDay.data[pageIndex].weight }}
-          </h3>
+          <app-add-exercise
+            [trainEx]="true"
+            [addNewEx]="false"
+            [ex]="currentDay.data[pageIndex]"
+            [week]="week"
+          ></app-add-exercise>
         </div>
         <div class="train-content">
         <iframe

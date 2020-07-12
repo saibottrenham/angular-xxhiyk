@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="addEx" *ngIf="!isDialog">
+<form (ngSubmit)="onSubmit()" [formGroup]="addEx" *ngIf="addNewEx">
   <mat-card>
     <mat-card-title fxLayoutAlign="center">Add Exercise</mat-card-title>
     <mat-card-content fxLayout="column" fxLayoutAlign="center">
@@ -36,16 +36,18 @@
   </mat-card>
 </form>
 
-<form (ngSubmit)="onSubmit()" [formGroup]="addEx" fxLayout="column" fxLayoutAlign="center" *ngIf="isDialog">
-  <mat-form-field >
-    <mat-label>Exercise Name</mat-label>
-    <input matInput formControlName="name" required>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Youtube Video link (optional)</mat-label>
-    <input matInput formControlName="link" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-    <mat-error>Video links need to be in this format -> https://www.youtube.com/....</mat-error>
-  </mat-form-field>
+<form (ngSubmit)="onSubmit()" [formGroup]="addEx" fxLayout="column" fxLayoutAlign="center" *ngIf="isDialog || trainEx">
+  <ng-container *ngIf="!trainEx">
+    <mat-form-field>
+      <mat-label>Exercise Name</mat-label>
+      <input matInput formControlName="name" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Youtube Video link (optional)</mat-label>
+      <input matInput formControlName="link" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+      <mat-error>Video links need to be in this format -> https://www.youtube.com/....</mat-error>
+    </mat-form-field>
+  </ng-container>
   <mat-form-field>
     <mat-label>Start weight in kg (optional)</mat-label>
     <input matInput formControlName="weight" placeholder="45">
@@ -61,6 +63,9 @@
     <input matInput formControlName="reps" placeholder="8">
     <mat-error>Only Numbers are allowed</mat-error>
   </mat-form-field>
-  <button type="button" mat-raised-button [mat-dialog-close]="true" (click)="onUpdate()" color="primary">Update</button>
-  <button type="button" mat-raised-button [mat-dialog-close]="false">Close</button>
+  <button *ngIf="trainEx" type="button" mat-raised-button (click)="onUpdate()" color="primary">Update</button>
+  <ng-container *ngIf="!trainEx">
+    <button type="button" mat-raised-button [mat-dialog-close]="true" (click)="onUpdate()" color="primary">Update</button>
+    <button type="button" mat-raised-button [mat-dialog-close]="false">Close</button>
+  </ng-container>
 </form>

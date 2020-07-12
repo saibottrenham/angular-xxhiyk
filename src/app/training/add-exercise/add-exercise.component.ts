@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from '../../../../node_modules/rxjs';
 import { MatDialog } from '@angular/material';
@@ -13,10 +13,12 @@ import { WeekPlan } from '../exercise.model';
   templateUrl: './add-exercise.component.html',
   styleUrls: ['./add-exercise.component.scss']
 })
-export class AddExerciseComponent implements OnInit {
+export class AddExerciseComponent implements OnInit, OnChanges {
   @Input() isDialog = false;
   @Input() ex = null;
   @Input() week: WeekPlan;
+  @Input() trainEx = false;
+  @Input() addNewEx = true;
   addEx: FormGroup;
   isLoadingSubmit$: Observable<boolean>;
 
@@ -33,15 +35,12 @@ export class AddExerciseComponent implements OnInit {
       sets: new FormControl('', { validators: [Validators.pattern('^[0-9]*$')] }),
       reps: new FormControl('', { validators: [Validators.pattern('^[0-9]*$')] })
     });
+    this.updateInputFields();
+  }
 
-    if (this.isDialog) {
-      this.addEx.patchValue({
-        name: this.ex.name,
-        link: this.ex.link,
-        weight: this.ex.weight,
-        sets: this.ex.sets,
-        reps: this.ex.reps
-      });
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.ex.currentValue && this.addEx != null) {
+      this.updateInputFields();
     }
   }
 
@@ -55,5 +54,17 @@ export class AddExerciseComponent implements OnInit {
     const ex = this.addEx.value;
     ex.id = this.ex.id;
     this.trainingService.updateExercise(ex, this.week);
+  }
+
+  updateInputFields() {
+    if (this.isDialog || this.trainEx) {
+      this.addEx.patchValue({
+        name: this.ex.name,
+        link: this.ex.link,
+        weight: this.ex.weight,
+        sets: this.ex.sets,
+        reps: this.ex.reps
+      });
+    }
   }
 }
