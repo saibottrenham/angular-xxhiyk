@@ -1,6 +1,5 @@
-import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
-import { Subscription } from 'rxjs/subscription';
+import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { Exercise, WeekPlan } from './exercise.model';
@@ -11,7 +10,6 @@ import { UiService } from '../shared/ui.service';
 import * as Training from './training.actions';
 import * as fromTraining from './training.reducer';
 import * as UI from '../shared/ui.actions';
-import { take } from 'rxjs/operators';
 
 @Injectable()
 export class TrainingService {
