@@ -82,11 +82,13 @@ export class WeekPlanComponent implements OnInit {
     dialogRef.afterClosed().subscribe();
   }
 
-  addNew() {
+  addNew(weekdata = null, weekPlan = null) {
     const dialogRef = this.dialog.open(AddExerciseComponent, {
       width: '600px'
     });
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe(data => {
+      console.log(data)
+    });
   }
 
   list() {

@@ -1,3 +1,11 @@
 $mat-xsmall: 'max-width: 699px';
 $mat-small: 'max-width: 959px';
 $mat-xs: 'max-width: 499px';
+.add-top-bottom-margin {
+    margin: 1em auto;
+}
+
+mat-card {
+    max-width: 1200px;
+    margin: 0 auto;
+}

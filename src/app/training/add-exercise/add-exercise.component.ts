@@ -1,7 +1,7 @@
-import { Component, OnInit, OnChanges, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, SimpleChanges, Optional } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from '../../../../node_modules/rxjs';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import * as fromTraining from '../training.reducer';
 import { TrainingService } from '../training.service';
@@ -24,6 +24,7 @@ export class AddExerciseComponent implements OnInit, OnChanges {
 
   constructor(
     private dialog: MatDialog,
+    @Optional() private dialogRef: MatDialogRef<AddExerciseComponent>,
     private store: Store<fromTraining.State>,
     private trainingService: TrainingService) { }
 
@@ -46,8 +47,11 @@ export class AddExerciseComponent implements OnInit, OnChanges {
 
   onSubmit() {
     this.isLoadingSubmit$ = this.store.select(fromRoot.getIsLoading);
-    this.trainingService.addExercise(this.addEx.value);
-    this.addEx.reset();
+    this.trainingService.addExercise(this.addEx.value).then(exID => {
+      this.dialogRef.close(exID);
+      this.addEx.reset();
+      this.addEx.markAsUntouched();
+    });
   }
 
   onUpdate() {

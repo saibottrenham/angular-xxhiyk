@@ -6,7 +6,7 @@
           <mat-icon>
             add
           </mat-icon>
-          Add Exercises
+          Add Exercise
         </button>
         <button mat-raised-button (click)="list()">
           <mat-icon>
@@ -33,13 +33,18 @@
                 </mat-icon>
               </mat-chip>
             </mat-chip-list>
-            <mat-form-field>
-              <mat-select (selectionChange)="add($event, week.data, weekPlan)" placeholder="Select an Exercise">
-                <mat-option *ngFor="let ex of exercises$ | async" [value]="ex">
-                  {{ex.name}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div class="inline-add-form-container">
+              <mat-icon class="inline-add-icon" fxFlex fxLayout fxLayoutAlign="flex-start" (click)="addNew(week.data, weekPlan)">
+                add
+              </mat-icon>
+              <mat-form-field>
+                <mat-select (selectionChange)="add($event, week.data, weekPlan)" placeholder="Select an Exercise">
+                  <mat-option *ngFor="let ex of exercises$ | async" [value]="ex">
+                    {{ex.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
         </ng-container>
       </div>

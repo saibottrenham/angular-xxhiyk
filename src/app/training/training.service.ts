@@ -10,6 +10,7 @@ import { UiService } from '../shared/ui.service';
 import * as Training from './training.actions';
 import * as fromTraining from './training.reducer';
 import * as UI from '../shared/ui.actions';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class TrainingService {
@@ -94,6 +95,7 @@ export class TrainingService {
     this.db.collection(path)
       .add(data).then(() => {
       this.store.dispatch(new UI.StopLoading());
+      this.uiService.showSnackbar('Data Stored successfully', null, 3000);
     }).catch(() => {
       this.store.dispatch(new UI.StopLoading());
       this.uiService.showSnackbar('Something Went wrong, can\'t save table', null, 3000);
@@ -105,6 +107,7 @@ export class TrainingService {
     this.db.collection(path, ref => ref.where('userID', '==', this.userID))
       .doc(id !== null ? id : data.id).update(data).then(() => {
       this.store.dispatch(new UI.StopLoading());
+      this.uiService.showSnackbar('Data updated successfully', null, 3000);
     }).catch(() => {
       this.store.dispatch(new UI.StopLoading());
       this.uiService.showSnackbar('Something Went wrong, can\'t update table', null, 3000);
@@ -113,7 +116,19 @@ export class TrainingService {
 
   addExercise(e: Exercise) {
     e.userID = this.userID;
-    this.addToDB(e, 'availableExercises');
+    return new Promise((resolve, reject) => {
+    // Generate a custom record ID using uuid
+      const recordId = uuidv4();
+
+      // Add the exercise with the custom record ID to Firebase
+      this.db.collection('availableExercises').doc(recordId).set(e)
+        .then(() => {
+          resolve(recordId);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   }
 
   updateExercise(e: Exercise, week: any) {
@@ -134,6 +149,7 @@ export class TrainingService {
     this.db.collection('availableExercises', ref => ref.where('userID', '==', this.userID))
       .doc(id).delete().then(() => {
       this.store.dispatch(new UI.StopLoading());
+      this.uiService.showSnackbar('Excercise Deleted', null, 3000);
     }).catch(() => {
       this.store.dispatch(new UI.StopLoading());
       this.uiService.showSnackbar('Something Went wrong, can\'t delete exercise', null, 3000);
