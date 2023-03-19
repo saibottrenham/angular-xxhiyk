@@ -10,7 +10,6 @@ import { UiService } from '../shared/ui.service';
 import * as Training from './training.actions';
 import * as fromTraining from './training.reducer';
 import * as UI from '../shared/ui.actions';
-import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class TrainingService {
@@ -98,7 +97,7 @@ export class TrainingService {
       this.uiService.showSnackbar('Data Stored successfully', null, 3000);
     }).catch(() => {
       this.store.dispatch(new UI.StopLoading());
-      this.uiService.showSnackbar('Something Went wrong, can\'t save table', null, 3000);
+      this.uiService.showSnackbar('Something Went wrong, can\'t save data', null, 3000);
     });
   }
 
@@ -117,15 +116,14 @@ export class TrainingService {
   addExercise(e: Exercise) {
     e.userID = this.userID;
     return new Promise((resolve, reject) => {
-    // Generate a custom record ID using uuid
-      const recordId = uuidv4();
-
       // Add the exercise with the custom record ID to Firebase
-      this.db.collection('availableExercises').doc(recordId).set(e)
+      this.db.collection('availableExercises').add(e)
         .then(() => {
+          this.uiService.showSnackbar('Data Stored successfully', null, 3000);
           resolve(e);
         })
         .catch(error => {
+          this.uiService.showSnackbar('Something Went wrong, can\'t save data', null, 3000);
           reject(error);
         });
     });
