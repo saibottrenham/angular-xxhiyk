@@ -87,7 +87,8 @@ export class WeekPlanComponent implements OnInit {
       width: '600px'
     });
     dialogRef.afterClosed().subscribe(data => {
-      console.log(data)
+      weekdata.push(data);
+      this.trainingService.submitTrainingPlan(weekPlan);
     });
   }
 

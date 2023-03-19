@@ -123,7 +123,7 @@ export class TrainingService {
       // Add the exercise with the custom record ID to Firebase
       this.db.collection('availableExercises').doc(recordId).set(e)
         .then(() => {
-          resolve(recordId);
+          resolve(e);
         })
         .catch(error => {
           reject(error);

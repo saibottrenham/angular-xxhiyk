@@ -47,8 +47,8 @@ export class AddExerciseComponent implements OnInit, OnChanges {
 
   onSubmit() {
     this.isLoadingSubmit$ = this.store.select(fromRoot.getIsLoading);
-    this.trainingService.addExercise(this.addEx.value).then(exID => {
-      this.dialogRef.close(exID);
+    this.trainingService.addExercise(this.addEx.value).then(data => {
+      this.dialogRef.close(data);
       this.addEx.reset();
       this.addEx.markAsUntouched();
     });
