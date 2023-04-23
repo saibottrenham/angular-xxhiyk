@@ -1,7 +1,6 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="addEx" *ngIf="addNewEx">
-  <mat-card>
-    <mat-card-title fxLayoutAlign="center">Add Exercise</mat-card-title>
-    <mat-card-content fxLayout="column" fxLayoutAlign="center">
+<div class="add-ex-container">
+<form (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutAlign="center" [formGroup]="addEx" *ngIf="addNewEx">
+    <h3 fxLayoutAlign="center">Add Exercise</h3>
       <mat-form-field >
         <mat-label>Exercise Name</mat-label>
         <input matInput formControlName="name" required>
@@ -11,7 +10,6 @@
         <input matInput formControlName="link" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
         <mat-error>Video links need to be in this format -> https://www.youtube.com/....</mat-error>
       </mat-form-field>
-      <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-evenly">
         <mat-form-field>
           <mat-label>Start weight in kg (optional)</mat-label>
           <input matInput formControlName="weight" placeholder="45">
@@ -27,16 +25,12 @@
         <input matInput formControlName="reps" placeholder="8">
         <mat-error>Only Numbers are allowed</mat-error>
       </mat-form-field>
-      </div>
       <mat-spinner fxLayoutAlign="center" *ngIf="(isLoadingSubmit$ | async)"></mat-spinner>
-    </mat-card-content>
-    <mat-card-actions fxLayoutAlign="center" *ngIf="!(isLoadingSubmit$ | async)">
-      <button type="button" mat-raised-button [disabled]="addEx.invalid" color="primary">Add</button>
-    </mat-card-actions>
-  </mat-card>
+      <button type="button" mat-raised-button [disabled]="addEx.invalid" color="primary" *ngIf="!(isLoadingSubmit$ | async)">Add</button>
 </form>
 
 <form [formGroup]="addEx" fxLayout="column" fxLayoutAlign="center" *ngIf="isDialog || trainEx">
+  <h3 fxLayoutAlign="center" *ngIf="isDialog">Edit Exercise</h3>
   <ng-container *ngIf="!trainEx">
     <mat-form-field>
       <mat-label>Exercise Name</mat-label>
@@ -69,3 +63,4 @@
     <button type="button" mat-raised-button [mat-dialog-close]="false">Close</button>
   </ng-container>
 </form>
+</div>

@@ -19,6 +19,10 @@ import { AuthModule } from './auth/auth.module';
 import { FirestoreModule } from '@angular/fire/firestore';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './app.reducer';
+import { NgChartsModule } from 'ng2-charts';
+import { CustomErrorHandler } from './custom-error-handler';
+import { ErrorHandler } from '@angular/core';
+
 
 
 @NgModule({
@@ -39,12 +43,14 @@ import { reducers } from './app.reducer';
     AngularFireModule.initializeApp(environment.firebase),
     FirestoreModule,
     StoreModule.forRoot(reducers),
+    NgChartsModule,
     AuthModule
   ],
   providers: [
     AuthService,
     TrainingService,
     UiService,
+    { provide: ErrorHandler, useClass: CustomErrorHandler },
   ],
   bootstrap: [AppComponent]
 })

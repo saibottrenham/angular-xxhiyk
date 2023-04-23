@@ -1,8 +1,8 @@
-<section class="analytics-section" >
-  <div style="display: block;">
-    <canvas baseChart [data]="chartData" [labels]="chartLabels" [options]="chartOptions" [colors]="chartColors"
-      [legend]="chartLegend" [chartType]="chartType">
-    </canvas>
-  </div>
-</section>
-
+<div style="display: block;">
+  <canvas baseChart width="400" height="400"
+    [type]="'line'"
+    [data]="lineChartData"
+    [options]="lineChartOptions"
+    [legend]="lineChartLegend">
+  </canvas>
+</div>

@@ -1,5 +1,5 @@
 <section class="new-training">
-  <mat-card fxFlex fxFlexAlign="center">
+  <mat-card>
     <mat-card-content>
       <div>
         <button mat-raised-button (click)="addNew()">
@@ -15,26 +15,26 @@
           List Exercises
         </button>
       </div>
-      <div class="box" fxFlexAlign="center">
+      <div class="box">
         <ng-container *ngFor="let weekPlan of weekPlan$| async;">
-          <div *ngFor="let week of weekPlan.week">
+          <div class="box-item" *ngFor="let week of weekPlan.week">
             <h4>{{week.day}}</h4>
-            <mat-chip-list class="mat-chip-list-stacked" aria-orientation="vertical" [selectable]="true">
-              <mat-chip
+            <mat-chip-listbox class="mat-mdc-chip-set-stacked" aria-label="Color selection">
+              <mat-chip 
                 *ngFor="let exM of week.data"
                 [removable]="removable"
                 (removed)="remove(exM, week.data, weekPlan)">
-                <mat-icon fxFlex fxLayout fxLayoutAlign="flex-start" (click)="openEdit(exM, weekPlan)">
+                {{exM?.name}}
+                <mat-icon matChipTrailingIcon (click)="openEdit(exM, weekPlan)">
                   edit
                 </mat-icon>
-                {{exM?.name}}
-                <mat-icon matChipRemove *ngIf="removable" fxFlex fxLayout fxLayoutAlign="flex-end">
+                <mat-icon matChipRemove *ngIf="removable">
                   cancel
                 </mat-icon>
               </mat-chip>
-            </mat-chip-list>
+            </mat-chip-listbox>
             <div class="inline-add-form-container">
-              <mat-icon class="inline-add-icon" fxFlex fxLayout fxLayoutAlign="flex-start" (click)="addNew(week.data, weekPlan)">
+              <mat-icon (click)="addNew(week.data, weekPlan)">
                 add
               </mat-icon>
               <mat-form-field>

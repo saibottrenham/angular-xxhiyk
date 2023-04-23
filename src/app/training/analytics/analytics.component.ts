@@ -1,25 +1,39 @@
 import { Component, OnInit } from '@angular/core';
-import { ChartDataset, ChartOptions, Color, LabelItem } from 'chart.js';
+import { Chart, ChartConfiguration, ChartOptions, ChartEvent, ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-analytics',
   templateUrl: './analytics.component.html',
-  styleUrls: ['./analytics.component.scss']
+  styleUrls: [ './analytics.component.scss' ]
 })
 export class AnalyticsComponent implements OnInit {
-  public chartData: ChartDataset[] = [];
-  public chartLabels: LabelItem[] = [];
-  public chartOptions: ChartOptions = {
-    responsive: true,
+  title = 'ng2-charts-demo';
+
+  public lineChartData: ChartConfiguration<'line'>['data'] = {
+    labels: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July'
+    ],
+    datasets: [
+      {
+        data: [ 65, 59, 80, 81, 56, 55, 40 ],
+        label: 'Series A',
+        fill: true,
+        tension: 0.5,
+        borderColor: 'black',
+        backgroundColor: 'rgba(255,0,0,0.3)'
+      }
+    ]
   };
-  public chartColors = [
-    {
-      borderColor: 'black',
-      backgroundColor: 'rgba(255,0,0,0.3)',
-    },
-  ];
-  public chartLegend = true;
-  public chartType = 'line';
+  public lineChartOptions: ChartOptions<'line'> = {
+    responsive: false
+  };
+  public lineChartLegend = true;
 
   constructor() { }
 
