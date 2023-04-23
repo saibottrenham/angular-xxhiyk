@@ -58,17 +58,4 @@ export class AuthService {
   logout() {
     this.afAuth.signOut();
   }
-
-  getUserID(): Promise<string> {
-    console.log('hey');    
-    return new Promise((resolve, reject) => {
-      this.afAuth.authState.subscribe(user => {
-        if (user) {
-          resolve(user.uid);
-        } else {
-          reject('User not found');
-        }
-      });
-    });
-  }
 }

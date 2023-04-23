@@ -1,3 +1,6 @@
+import { Timestamp } from '@firebase/firestore-types';
+
+
 export interface Exercise {
   id: string;
   userID?: string;
@@ -6,8 +9,8 @@ export interface Exercise {
   weight: number;
   sets: number;
   reps: number;
-  date?: Date;
-  lastModified?: Date;
+  date?: Timestamp;
+  lastModified?: Timestamp;
 }
 
 export interface WeekPlan {

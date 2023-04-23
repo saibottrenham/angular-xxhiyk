@@ -9,6 +9,8 @@ import * as Training from './training.actions';
 import * as fromTraining from './training.reducer';
 import * as UI from '../shared/ui.actions';
 import { Exercise, WeekPlan } from './models/exercise.model';
+import { Analytics } from './models/analytics.model';
+import { Timestamp } from '@firebase/firestore';
 
 @Injectable()
 export class TrainingService {
@@ -68,6 +70,38 @@ export class TrainingService {
     );
   }
 
+  getAnalytics() {
+    this.store.dispatch(new UI.StartLoading());
+    this.fbSubs.push(this.db
+      .collection('analytics', ref => ref.where('userID', '==', this.userID))
+      .snapshotChanges()
+      .pipe(
+        map(docArray => {
+          return docArray.map(doc => {
+            const data = doc.payload.doc.data() as Analytics;
+            return {
+              id: doc.payload.doc.id,
+              name: data.name,
+              link: data.link,
+              weight: data.weight,
+              sets: data.sets,
+              reps: data.reps,
+              date: data.date,
+              lastModified: data.lastModified
+            };
+          });
+        })
+      )
+      .subscribe((analytics: any) => {
+        this.store.dispatch(new UI.StopLoading());
+        this.store.dispatch(new Training.SetAnalytics(analytics));
+      }, error => {
+        console.log(error, 'error');
+        this.store.dispatch(new UI.StopLoading());
+        this.uiService.showSnackbar('Fetching Analytics failed, please try again later', null, 3000);
+      })
+    );
+  }
   fetchWeekPlan() {
     this.store.dispatch(new UI.StartLoading());
     this.fbSubs.push(this.db
@@ -126,8 +160,8 @@ export class TrainingService {
 
   addExercise(e: Exercise) {
     e.userID = this.userID;
-    e.date = new Date();
-    e.lastModified = new Date();
+    e.date = Timestamp.fromDate(new Date());
+    e.lastModified = Timestamp.fromDate(new Date());
     return new Promise((resolve, reject) => {
       // Add the exercise with the custom record ID to Firebase
       this.db.collection('availableExercises').add(e)
@@ -151,7 +185,7 @@ export class TrainingService {
       }
     }
     e.userID = this.userID;
-    e.lastModified = new Date();
+    e.lastModified = Timestamp.fromDate(new Date());
     this.updateToDB(e, 'availableExercises', null, true);
     this.submitTrainingPlan(week);
     this.submitAnalytics(e);
