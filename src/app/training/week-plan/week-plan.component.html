@@ -27,7 +27,7 @@
                 <mat-icon fxFlex fxLayout fxLayoutAlign="flex-start" (click)="openEdit(exM, weekPlan)">
                   edit
                 </mat-icon>
-                {{exM.name}}
+                {{exM?.name}}
                 <mat-icon matChipRemove *ngIf="removable" fxFlex fxLayout fxLayoutAlign="flex-end">
                   cancel
                 </mat-icon>
@@ -40,7 +40,7 @@
               <mat-form-field>
                 <mat-select (selectionChange)="add($event, week.data, weekPlan)" placeholder="Select an Exercise">
                   <mat-option *ngFor="let ex of exercises$ | async" [value]="ex">
-                    {{ex.name}}
+                    {{ex?.name}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>

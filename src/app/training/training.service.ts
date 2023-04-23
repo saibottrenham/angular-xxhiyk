@@ -98,24 +98,26 @@ export class TrainingService {
     );
   }
 
-  addToDB(data: any, path: string) {
+  addToDB(data: any, path: string, send_notification: boolean = false) {
     this.store.dispatch(new UI.StartLoading());
+    // adding a last modified timestamp
     this.db.collection(path)
       .add(data).then(() => {
       this.store.dispatch(new UI.StopLoading());
-      this.uiService.showSnackbar('Data Stored successfully', null, 3000);
+      if (send_notification) {this.uiService.showSnackbar('Data Stored successfully', null, 3000)};
     }).catch(() => {
       this.store.dispatch(new UI.StopLoading());
       this.uiService.showSnackbar('Something Went wrong, can\'t save data', null, 3000);
     });
   }
 
-  updateToDB(data: any, path: string, id: string = null) {
+  updateToDB(data: any, path: string, id: string = null, send_notification: boolean = false) {
+    // adding a last modified timestamp
     this.store.dispatch(new UI.StartLoading());
     this.db.collection(path, ref => ref.where('userID', '==', this.userID))
       .doc(id !== null ? id : data.id).update(data).then(() => {
       this.store.dispatch(new UI.StopLoading());
-      this.uiService.showSnackbar('Data updated successfully', null, 3000);
+      if (send_notification) {this.uiService.showSnackbar('Data updated successfully', null, 3000)};
     }).catch(() => {
       this.store.dispatch(new UI.StopLoading());
       this.uiService.showSnackbar('Something Went wrong, can\'t update table', null, 3000);
@@ -124,6 +126,8 @@ export class TrainingService {
 
   addExercise(e: Exercise) {
     e.userID = this.userID;
+    e.date = new Date();
+    e.lastModified = new Date();
     return new Promise((resolve, reject) => {
       // Add the exercise with the custom record ID to Firebase
       this.db.collection('availableExercises').add(e)
@@ -147,8 +151,10 @@ export class TrainingService {
       }
     }
     e.userID = this.userID;
-    this.updateToDB(e, 'availableExercises');
+    e.lastModified = new Date();
+    this.updateToDB(e, 'availableExercises', null, true);
     this.submitTrainingPlan(week);
+    this.submitAnalytics(e);
   }
 
   deleteExercise(id: string) {
@@ -170,6 +176,10 @@ export class TrainingService {
     } else {
       this.updateToDB(data, 'week_plan', week.id);
     }
+  }
+
+  submitAnalytics(e: Exercise) {
+    this.addToDB(e, 'analytics');
   }
 
   cancelSubscriptions() {

@@ -35,7 +35,8 @@
         <mat-paginator
           [pageIndex]="pageIndex"
           [length]="dayLength"
-          [pageSize]="1" (page)="getCurrentPageIndex($event)"
+          [pageSize]="1" 
+          (page)="getCurrentPageIndex($event)"
           *ngIf="dayLength > 1">
         </mat-paginator>
       </mat-card-actions>

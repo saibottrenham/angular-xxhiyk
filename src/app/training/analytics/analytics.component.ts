@@ -1,11 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TrainingService } from '../training.service';
-import { Observable } from 'rxjs';
-import * as fromTraining from '../training.reducer';
-import { Store } from '@ngrx/store';
-import { UiService } from '../../shared/ui.service';
-import { WeekPlan } from '../exercise.model';
-import { PageEvent } from '@angular/material/paginator';
+import { ChartDataset, ChartOptions, Color, LabelItem } from 'chart.js';
 
 @Component({
   selector: 'app-analytics',
@@ -13,14 +7,19 @@ import { PageEvent } from '@angular/material/paginator';
   styleUrls: ['./analytics.component.scss']
 })
 export class AnalyticsComponent implements OnInit {
-
-  public today: string;
-  public weekPlan$: Observable<WeekPlan>;
-  public pageIndex = 0;
-  public currentDay = null;
-  public totalTrainEx = 0;
-  private indexKey = 'pageIndex';
-  public week = null;
+  public chartData: ChartDataset[] = [];
+  public chartLabels: LabelItem[] = [];
+  public chartOptions: ChartOptions = {
+    responsive: true,
+  };
+  public chartColors = [
+    {
+      borderColor: 'black',
+      backgroundColor: 'rgba(255,0,0,0.3)',
+    },
+  ];
+  public chartLegend = true;
+  public chartType = 'line';
 
   constructor() { }
 

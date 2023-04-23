@@ -7,6 +7,7 @@ export interface Exercise {
   sets: number;
   reps: number;
   date?: Date;
+  lastModified?: Date;
   state?: 'completed' | 'cancelled' | null;
 }
 

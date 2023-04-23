@@ -31,12 +31,12 @@
       <mat-spinner fxLayoutAlign="center" *ngIf="(isLoadingSubmit$ | async)"></mat-spinner>
     </mat-card-content>
     <mat-card-actions fxLayoutAlign="center" *ngIf="!(isLoadingSubmit$ | async)">
-      <button type="submit" mat-raised-button [disabled]="addEx.invalid" color="primary">Add</button>
+      <button type="button" mat-raised-button [disabled]="addEx.invalid" color="primary">Add</button>
     </mat-card-actions>
   </mat-card>
 </form>
 
-<form (ngSubmit)="onSubmit()" [formGroup]="addEx" fxLayout="column" fxLayoutAlign="center" *ngIf="isDialog || trainEx">
+<form [formGroup]="addEx" fxLayout="column" fxLayoutAlign="center" *ngIf="isDialog || trainEx">
   <ng-container *ngIf="!trainEx">
     <mat-form-field>
       <mat-label>Exercise Name</mat-label>
