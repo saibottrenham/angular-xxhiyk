@@ -4,7 +4,7 @@ import { Observable } from '../../../../node_modules/rxjs';
 import * as fromTraining from '../training.reducer';
 import { Store } from '@ngrx/store';
 import { UiService } from '../../shared/ui.service';
-import { WeekPlan } from '../exercise.model';
+import { WeekPlan } from '../models/exercise.model';
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({

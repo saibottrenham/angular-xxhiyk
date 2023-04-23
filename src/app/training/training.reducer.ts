@@ -4,7 +4,7 @@ import {
   SET_AVAILABLE_TRAININGS,
   SET_WEEK_PLAN
 } from './training.actions';
-import { Exercise } from './exercise.model';
+import { Exercise } from './models/exercise.model';
 import * as fromRoot from '../app.reducer';
 
 export interface TrainingState {

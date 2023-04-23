@@ -8,7 +8,7 @@ import { UiService } from '../shared/ui.service';
 import * as Training from './training.actions';
 import * as fromTraining from './training.reducer';
 import * as UI from '../shared/ui.actions';
-import { Exercise, WeekPlan } from './exercise.model';
+import { Exercise, WeekPlan } from './models/exercise.model';
 
 @Injectable()
 export class TrainingService {

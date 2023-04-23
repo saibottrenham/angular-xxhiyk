@@ -6,7 +6,7 @@ import * as fromTraining from '../training.reducer';
 import { Observable } from 'rxjs';
 
 import { TrainingService } from '../training.service';
-import { Exercise, WeekPlan } from '../exercise.model';
+import { Exercise, WeekPlan } from '../models/exercise.model';
 import { EditExerciseComponent } from '../list-exercises/edit-exercise.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AddExerciseComponent } from '../add-exercise/add-exercise.component';

@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import * as fromTraining from '../training.reducer';
 import { TrainingService } from '../training.service';
 import * as fromRoot from '../../app.reducer';
-import { WeekPlan } from '../exercise.model';
+import { WeekPlan } from '../models/exercise.model';
 
 @Component({
   selector: 'app-add-exercise',

@@ -8,7 +8,6 @@ export interface Exercise {
   reps: number;
   date?: Date;
   lastModified?: Date;
-  state?: 'completed' | 'cancelled' | null;
 }
 
 export interface WeekPlan {
