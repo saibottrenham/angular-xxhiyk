@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, Input, SimpleChanges, Optional } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from '../../../../node_modules/rxjs';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import * as fromTraining from '../training.reducer';
 import { TrainingService } from '../training.service';

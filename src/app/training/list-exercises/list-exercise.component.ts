@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import * as fromTraining from '../training.reducer';
 import { Exercise, WeekPlan } from '../exercise.model';
 import { TrainingService } from '../training.service';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { EditExerciseComponent } from './edit-exercise.component';
 
 @Component({

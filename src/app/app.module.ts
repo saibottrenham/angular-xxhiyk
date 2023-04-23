@@ -3,8 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { AngularFireModule } from 'angularfire2';
-
+import { AngularFireModule } from '@angular/fire/compat';
 
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
@@ -17,7 +16,7 @@ import { TrainingService } from './training/training.service';
 import { environment } from '../environments/environment';
 import { UiService } from './shared/ui.service';
 import { AuthModule } from './auth/auth.module';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { FirestoreModule } from '@angular/fire/firestore';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './app.reducer';
 
@@ -38,11 +37,15 @@ import { reducers } from './app.reducer';
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    FirestoreModule,
     StoreModule.forRoot(reducers),
     AuthModule
   ],
-  providers: [AuthService, TrainingService, UiService],
+  providers: [
+    AuthService,
+    TrainingService,
+    UiService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

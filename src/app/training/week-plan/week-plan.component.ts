@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { TrainingService } from '../training.service';
 import { Exercise, WeekPlan } from '../exercise.model';
 import { EditExerciseComponent } from '../list-exercises/edit-exercise.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AddExerciseComponent } from '../add-exercise/add-exercise.component';
 import { ListExerciseComponent } from '../list-exercises/list-exercise.component';
 

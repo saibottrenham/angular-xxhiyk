@@ -1,15 +1,14 @@
-import 'rxjs/add/operator/map';
+import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-
-import { Exercise, WeekPlan } from './exercise.model';
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { UiService } from '../shared/ui.service';
 import * as Training from './training.actions';
 import * as fromTraining from './training.reducer';
 import * as UI from '../shared/ui.actions';
+import { Exercise, WeekPlan } from './exercise.model';
 
 @Injectable()
 export class TrainingService {
@@ -32,9 +31,11 @@ export class TrainingService {
     private db: AngularFirestore,
     private uiService: UiService,
     private afAuth: AngularFireAuth,
-    private store: Store<fromTraining.State>) {
+    private store: Store<fromTraining.State>
+  ) {
     this.afAuth.authState.subscribe(user => {
-      if (user) { this.userID = user.uid; }});
+      if (user) { this.userID = user.uid; }
+    });
   }
 
   fetchAvailableExercises() {
@@ -42,25 +43,29 @@ export class TrainingService {
     this.fbSubs.push(this.db
       .collection('availableExercises', ref => ref.where('userID', '==', this.userID))
       .snapshotChanges()
-      .map(docArray => {
-        return docArray.map(doc => {
-          return {
-            id: doc.payload.doc.id,
-            name: doc.payload.doc.data()['name'],
-            link: doc.payload.doc.data()['link'],
-            weight: doc.payload.doc.data()['weight'],
-            sets: doc.payload.doc.data()['sets'],
-            reps: doc.payload.doc.data()['reps']
-          };
-        });
-      })
+      .pipe(
+        map(docArray => {
+          return docArray.map(doc => {
+            const data = doc.payload.doc.data() as Exercise;
+            return {
+              id: doc.payload.doc.id,
+              name: data.name,
+              link: data.link,
+              weight: data.weight,
+              sets: data.sets,
+              reps: data.reps
+            };
+          });
+        })
+      )
       .subscribe((exercises: Exercise[]) => {
         this.store.dispatch(new UI.StopLoading());
         this.store.dispatch(new Training.SetAvailableTrainings(exercises));
       }, error => {
         this.store.dispatch(new UI.StopLoading());
         this.uiService.showSnackbar('Fetching Exercises failed, please try again later', null, 3000);
-      }));
+      })
+    );
   }
 
   fetchWeekPlan() {
@@ -68,14 +73,17 @@ export class TrainingService {
     this.fbSubs.push(this.db
       .collection('week_plan', ref => ref.where('userID', '==', this.userID))
       .snapshotChanges()
-      .map(docArray => {
-        return docArray.map(doc => {
-          return {
-            id: doc.payload.doc.id,
-            week: JSON.parse(doc.payload.doc.data()['week']),
-          };
-        });
-      })
+      .pipe(
+        map(docArray => {
+          return docArray.map(doc => {
+            const data = doc.payload.doc.data() as WeekPlan;
+            return {
+              id: doc.payload.doc.id,
+              week: JSON.parse(data.week),
+            };
+          });
+        })
+      )
       .subscribe((week_plan: any) => {
         if (week_plan.length === 0) {
           this.store.dispatch(new Training.SetWeekPlan(this.week_plan));
@@ -86,7 +94,8 @@ export class TrainingService {
       }, error => {
         this.store.dispatch(new UI.StopLoading());
         this.uiService.showSnackbar('Something Went wrong, can\'t fetch table', null, 3000);
-      }));
+      })
+    );
   }
 
   addToDB(data: any, path: string) {
