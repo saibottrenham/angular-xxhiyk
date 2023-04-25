@@ -33,8 +33,10 @@
       </mat-card-content>
       <mat-card-actions>
         <mat-paginator
+          [hidePageSize]="true"
           [pageIndex]="pageIndex"
           [length]="dayLength"
+          [showFirstLastButtons]="true"
           [pageSize]="1" 
           (page)="getCurrentPageIndex($event)"
           *ngIf="dayLength > 1">

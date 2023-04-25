@@ -5,10 +5,7 @@
       <mat-list-item *ngFor="let exercise of exercises$ | async">
         <div class="container" fxFlex fxLayout>
           <div class="exes" fxFlex>
-            <p mat-line>{{exercise.name}} | Weight: {{ exercise.weight ? exercise.weight : "0" }}kg |
-              Sets: {{ exercise.sets ? exercise.sets : "0" }}x |
-              Reps: {{ exercise.reps ? exercise.reps : "0" }}x
-            </p>
+            <p mat-line>{{exercise.name}}</p>
           </div>
           <div fxFlex="none" fxLayoutAlign="flex-end">
             <button type="button" mat-raised-button color="primary" (click)="openEdit(exercise)">Edit</button>
