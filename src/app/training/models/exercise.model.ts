@@ -6,9 +6,9 @@ export interface Exercise {
   userID?: string;
   name: string;
   link: string;
-  weight: number;
-  sets: number;
-  reps: number;
+  weight: string;
+  sets: string;
+  reps: string;
   date?: Timestamp;
   lastModified?: Timestamp;
 }

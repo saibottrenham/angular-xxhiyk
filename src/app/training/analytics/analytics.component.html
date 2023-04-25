@@ -1,9 +1,10 @@
-<div class="analytics-chart-container">
-  <canvas baseChart 
-          [type]="'line'"
-          [data]="lineChartData" 
-          [options]="lineChartOptions" 
-          [legend]="lineChartLegend"
-          >
-  </canvas>
+<div style="display: block;">
+  <canvas baseChart
+  chartType="'line'"
+  [type]="'line'"
+  [datasets]="chart.datasets"
+  [labels]="chart.labels"
+  [options]="chart.options"
+  legend="true">
+</canvas>
 </div>
