@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { AuthService } from '../auth.service';
-import { UiService } from '../../shared/ui.service';
+import { AuthService } from '../services/auth.service';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../app.reducer';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-signup',
@@ -19,7 +17,6 @@ export class SignupComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private uiService: UiService,
     private store: Store<fromRoot.State>) { }
 
   ngOnInit() {

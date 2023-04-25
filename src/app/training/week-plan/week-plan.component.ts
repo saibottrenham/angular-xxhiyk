@@ -6,9 +6,9 @@ import * as fromTraining from '../training.reducer';
 import { Observable } from 'rxjs';
 
 import { TrainingService } from '../training.service';
-import { Exercise, WeekPlan } from '../exercise.model';
+import { Exercise, WeekPlan } from '../models/exercise.model';
 import { EditExerciseComponent } from '../list-exercises/edit-exercise.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AddExerciseComponent } from '../add-exercise/add-exercise.component';
 import { ListExerciseComponent } from '../list-exercises/list-exercise.component';
 
@@ -82,11 +82,16 @@ export class WeekPlanComponent implements OnInit {
     dialogRef.afterClosed().subscribe();
   }
 
-  addNew() {
+  addNew(weekdata = null, weekPlan = null) {
     const dialogRef = this.dialog.open(AddExerciseComponent, {
       width: '600px'
     });
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe(data => {
+      if (data != null) {
+        weekdata.push(data);
+        this.trainingService.submitTrainingPlan(weekPlan);
+      }
+    });
   }
 
   list() {

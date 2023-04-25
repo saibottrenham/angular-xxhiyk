@@ -10,6 +10,8 @@ import { EditExerciseComponent } from './list-exercises/edit-exercise.component'
 import { AddExerciseComponent } from './add-exercise/add-exercise.component';
 import { TrainComponent } from './train/train.component';
 import { SafeUrlPipe } from './safe-url.pipe';
+import { AnalyticsComponent } from './analytics/analytics.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -19,12 +21,14 @@ import { SafeUrlPipe } from './safe-url.pipe';
     ListExerciseComponent,
     AddExerciseComponent,
     TrainComponent,
+    AnalyticsComponent,
     SafeUrlPipe
   ],
   imports: [
     SharedModule,
     TrainingRoutingModule,
-    StoreModule.forFeature('training', trainingReducer)
+    StoreModule.forFeature('training', trainingReducer),
+    NgChartsModule,
   ],
   entryComponents: [EditExerciseComponent]
 })

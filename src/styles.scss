@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/theming';
+@import '@angular/material/theming';
 @import 'theme';
 // Plus imports for other components in your app.
 
@@ -33,4 +33,27 @@ html, body {
 
 body {
   margin: 0;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+  height: 1em;
+}
+
+mat-card-title {
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: 500;
+  margin-bottom: 1em !important;
+  margin-top: 1em !important;
+}
+
+mat-card {
+  margin: 0 auto;
+  box-sizing: border-box;
+  min-width: 100%;
+  box-shadow: none;
+  padding: 2em;
+  mat-card-content {
+    padding: 2em;
+  }
 }

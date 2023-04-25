@@ -1,9 +1,12 @@
 <section class="new-training">
+  <mat-card class="add-top-bottom-margin padding-left-right">  
+    <h1 *ngIf="currentDay?.data?.length as dayLength">{{ currentDay.day.toUpperCase() }}</h1>
+  </mat-card>
   <mat-card>
     <ng-container *ngIf="currentDay?.data?.length as dayLength">
       <mat-card-header>
           <mat-card-title>
-            {{ currentDay.day.toUpperCase() }} - {{ currentDay.data[pageIndex]?.name }}
+            {{ currentDay.data[pageIndex]?.name }}
           </mat-card-title>
         <mat-card-subtitle>
           Exercise {{pageIndex + 1 }}/{{totalTrainEx}}:
@@ -32,14 +35,15 @@
         <mat-paginator
           [pageIndex]="pageIndex"
           [length]="dayLength"
-          [pageSize]="1" (page)="getCurrentPageIndex($event)"
+          [pageSize]="1" 
+          (page)="getCurrentPageIndex($event)"
           *ngIf="dayLength > 1">
         </mat-paginator>
       </mat-card-actions>
     </ng-container>
     <!-- if we have no exercises -->
     <mat-card-header  *ngIf="!currentDay?.data?.length">
-      <h2>It's {{today}}, No Exercises for Today, take a rest mate!</h2>
+      <h2>No Exercises for Today, take a rest mate!</h2>
     </mat-card-header>
   </mat-card>
 </section>

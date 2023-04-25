@@ -1,23 +1,16 @@
 @import "../../../vars";
 
-mat-card {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
 .new-training {
   padding: 30px;
 }
 
 .train-content {
+  padding: 1em;
   display: block;
-  width: 50%;
+  width: calc(50% - 2em);
   float: left;
   @media screen and ($mat-small) {
-    width: 100%;
+    width: calc(100% - 2em);
   }
 }
 
-.mat-card-content {
-  overflow: auto;
-}

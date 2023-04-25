@@ -1,16 +1,13 @@
-
-form, mat-card {
-  margin: 0 auto;
-  box-sizing: border-box;
-  min-width: 100%;
-}
-button {
-  margin-left: 1em;
-}
-.mobile-button {
-  margin: 1em 0;
-}
-.mat-card{
-  box-shadow: none;
-}
-
+.container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  
+  .exes {
+    flex-shrink: 0;
+    white-space: nowrap;
+    margin-right: 1em;
+    overflow: scroll;
+  }
