@@ -3,15 +3,9 @@
   <mat-card-content fxLayout="column" fxLayoutAlign="center" *ngIf="!(isLoading$ | async) && exercises$ | async">
     <mat-list>
       <mat-list-item *ngFor="let exercise of exercises$ | async">
-        <div class="container" fxFlex fxLayout>
-          <div class="exes" fxFlex>
-            <p mat-line>{{exercise.name}}</p>
-          </div>
-          <div fxFlex="none" fxLayoutAlign="flex-end">
-            <button type="button" mat-raised-button color="primary" (click)="openEdit(exercise)">Edit</button>
+            {{exercise.name}}
             <button type="button" mat-raised-button color="warn" (click)="deleteEx(exercise.id)">Delete</button>
-          </div>
-        </div>
+            <button type="button" mat-raised-button color="primary" (click)="openEdit(exercise)">Edit</button>
       </mat-list-item>
     </mat-list>
   </mat-card-content>
