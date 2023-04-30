@@ -22,6 +22,8 @@ import { reducers } from './app.reducer';
 import { NgChartsModule } from 'ng2-charts';
 import { CustomErrorHandler } from './custom-error-handler';
 import { ErrorHandler } from '@angular/core';
+import { ApiService } from './shared/message.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -44,12 +46,16 @@ import { ErrorHandler } from '@angular/core';
     FirestoreModule,
     StoreModule.forRoot(reducers),
     NgChartsModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
     AuthModule
   ],
   providers: [
     AuthService,
     TrainingService,
     UiService,
+    ApiService,
     { provide: ErrorHandler, useClass: CustomErrorHandler },
   ],
   bootstrap: [AppComponent]

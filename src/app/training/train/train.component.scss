@@ -7,10 +7,10 @@
 .train-content {
   padding: 1em;
   display: block;
-  width: calc(50% - 2em);
+  width: 50%;
   float: left;
   @media screen and ($mat-small) {
-    width: calc(100% - 2em);
+    width: 100%;
   }
 }
 
