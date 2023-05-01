@@ -26,7 +26,7 @@
         <mat-error>Only Numbers are allowed</mat-error>
       </mat-form-field>
       <mat-spinner fxLayoutAlign="center" *ngIf="(isLoadingSubmit$ | async)"></mat-spinner>
-      <button type="button" mat-raised-button [disabled]="addEx.invalid" color="primary" *ngIf="!(isLoadingSubmit$ | async)">Add</button>
+      <button type="submit" mat-raised-button [disabled]="addEx.invalid" color="primary" *ngIf="!(isLoadingSubmit$ | async)">Add</button>
 </form>
 
 <form [formGroup]="addEx" fxLayout="column" fxLayoutAlign="center" *ngIf="isDialog || trainEx">
